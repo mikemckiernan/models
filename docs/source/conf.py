@@ -33,10 +33,9 @@ from recommonmark.parser import CommonMarkParser
 
 sys.path.insert(0, os.path.abspath("../../"))
 
-
 # -- Project information -----------------------------------------------------
 
-project = "Merlin models"
+project = "Merlin Models"
 copyright = "2022, NVIDIA"
 author = "NVIDIA"
 
@@ -52,6 +51,7 @@ extensions = [
     "sphinx_markdown_tables",
     "nbsphinx",
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.coverage",
     "sphinx.ext.githubpages",
     "sphinx.ext.napoleon",
@@ -93,3 +93,11 @@ intersphinx_mapping = {
 }
 
 autodoc_inherit_docstrings = False
+autodoc_default_options = {
+    "members": True,
+    "undoc-members": True,
+    "show-inheritance": False,
+    "member-order": "bysource",
+}
+
+autosummary_generate = True

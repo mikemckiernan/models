@@ -6,7 +6,8 @@ Welcome to Merlin Models documentation!
    :caption: Contents:
 
    Getting Started <getting_started>
-
+   retrieval_models
+   API Documentation <api>
 
 Indices and tables
 ==================
