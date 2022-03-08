@@ -3,6 +3,9 @@ API Documentation
 *****************
 
 
+WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.AddLeft': no module named merlin.models.tf.blocks.aggregation.AddLeft             WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.ConcatFeatures': no module named merlin.models.tf.blocks.aggregation.ConcatFeatures                                                                                                                                                              WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.CosineSimilarity': no module named merlin.models.tf.blocks.aggregation.CosineSimilarity                                                                                                                                                          WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.ElementWiseMultiply': no module named merlin.models.tf.blocks.aggregation.ElementWiseMultiply                                                                                                                                                    WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.ElementwiseSum': no module named merlin.models.tf.blocks.aggregation.ElementwiseSum                                                                                                                                                              WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.ElementwiseSumItemMulti': no module named merlin.models.tf.blocks.aggregation.ElementwiseSumItemMulti                                                                                                                                            WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.SequenceAggregation': no module named merlin.models.tf.blocks.aggregation.SequenceAggregation                                                                                                                                                    WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.SequenceAggregator': no module named merlin.models.tf.blocks.aggregation.SequenceAggregator                                                                                                                                                      WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.StackFeatures': no module named merlin.models.tf.blocks.aggregation.StackFeatures WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.Sum': no module named merlin.models.tf.blocks.aggregation.Sum                     WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.SumResidual': no module named merlin.models.tf.blocks.aggregation.SumResidual     WARNING: [autosummary] failed to import 'merlin.models.tf.blocks.aggregation.TupleAggregation': 
+
+
 TensorFlow Models
 ------------------
 
@@ -65,28 +68,6 @@ Masking Block Constructors
 
    CausalLanguageModeling
    MaskedLanguageModeling
-
-
-Aggregation Block Constructors
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. currentmodule:: merlin.models.tf.blocks.aggregation
-
-.. autosummary::
-   :toctree: generated
-
-   ConcatFeatures
-   StackFeatures
-   Sum
-   SumResidual
-   AddLeft
-   ElementwiseSum
-   ElementwiseSumItemMulti
-   ElementWiseMultiply
-   TupleAggregation
-   CosineSimilarity
-   SequenceAggregation
-   SequenceAggregator
 
 
 Modeling Task Constructors
