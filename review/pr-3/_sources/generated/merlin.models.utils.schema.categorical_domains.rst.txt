@@ -1,0 +1,6 @@
+﻿merlin.models.utils.schema.categorical\_domains
+===============================================
+
+.. currentmodule:: merlin.models.utils.schema
+
+.. autofunction:: categorical_domains

@@ -1,0 +1,6 @@
+﻿merlin.models.utils.schema.get\_embedding\_sizes\_from\_schema
+==============================================================
+
+.. currentmodule:: merlin.models.utils.schema
+
+.. autofunction:: get_embedding_sizes_from_schema

@@ -1,0 +1,6 @@
+﻿merlin.models.utils.data\_etl\_utils.movielens\_download\_etl
+=============================================================
+
+.. currentmodule:: merlin.models.utils.data_etl_utils
+
+.. autofunction:: movielens_download_etl
