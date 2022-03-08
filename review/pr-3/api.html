@@ -84,7 +84,6 @@
 <li class="toctree-l4"><a class="reference internal" href="generated/merlin.models.tf.MaskedLanguageModeling.html">merlin.models.tf.MaskedLanguageModeling</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#aggregation-block-constructors">Aggregation Block Constructors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modeling-task-constructors">Modeling Task Constructors</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/merlin.models.tf.PredictionTasks.html">merlin.models.tf.PredictionTasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/merlin.models.tf.PredictionTask.html">merlin.models.tf.PredictionTask</a></li>
@@ -263,6 +262,7 @@
 </style>
 <div class="section" id="api-documentation">
 <h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline"></a></h1>
+<p>WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.AddLeft’: no module named merlin.models.tf.blocks.aggregation.AddLeft             WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.ConcatFeatures’: no module named merlin.models.tf.blocks.aggregation.ConcatFeatures                                                                                                                                                              WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.CosineSimilarity’: no module named merlin.models.tf.blocks.aggregation.CosineSimilarity                                                                                                                                                          WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.ElementWiseMultiply’: no module named merlin.models.tf.blocks.aggregation.ElementWiseMultiply                                                                                                                                                    WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.ElementwiseSum’: no module named merlin.models.tf.blocks.aggregation.ElementwiseSum                                                                                                                                                              WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.ElementwiseSumItemMulti’: no module named merlin.models.tf.blocks.aggregation.ElementwiseSumItemMulti                                                                                                                                            WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.SequenceAggregation’: no module named merlin.models.tf.blocks.aggregation.SequenceAggregation                                                                                                                                                    WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.SequenceAggregator’: no module named merlin.models.tf.blocks.aggregation.SequenceAggregator                                                                                                                                                      WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.StackFeatures’: no module named merlin.models.tf.blocks.aggregation.StackFeatures WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.Sum’: no module named merlin.models.tf.blocks.aggregation.Sum                     WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.SumResidual’: no module named merlin.models.tf.blocks.aggregation.SumResidual     WARNING: [autosummary] failed to import ‘merlin.models.tf.blocks.aggregation.TupleAggregation’:</p>
 <div class="section" id="tensorflow-models">
 <h2>TensorFlow Models<a class="headerlink" href="#tensorflow-models" title="Permalink to this headline"></a></h2>
 <div class="section" id="model-constructors">
@@ -400,17 +400,6 @@
 <tr class="row-even"><td><p><a class="reference internal" href="generated/merlin.models.tf.MaskedLanguageModeling.html#merlin.models.tf.MaskedLanguageModeling" title="merlin.models.tf.MaskedLanguageModeling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MaskedLanguageModeling</span></code></a>(*args, **kwargs)</p></td>
 <td><p>In Masked Language Modeling (mlm) you randomly select some positions of the sequence to be predicted, which are masked. During training, the Transformer layer is allowed to use positions on the right (future info). During inference, all past items are visible for the Transformer layer, which tries to predict the next item. :param {mask_sequence_parameters}: :param mlm_probability: Probability of an item to be selected (masked) as a label of the given sequence. p.s. We enforce that at least one item is masked for each sequence, so that the network can                         learn something with it. Defaults to 0.15 :type mlm_probability: Optional[float].</p></td>
 </tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="aggregation-block-constructors">
-<h3>Aggregation Block Constructors<a class="headerlink" href="#aggregation-block-constructors" title="Permalink to this headline"></a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
 </tbody>
 </table>
 </div>
