@@ -73,6 +73,8 @@
       ~Filter.set_pre
       ~Filter.set_schema
       ~Filter.set_weights
+      ~Filter.super
+      ~Filter.to_model
       ~Filter.with_name_scope
    
    
@@ -91,6 +93,7 @@
       ~Filter.dtype
       ~Filter.dtype_policy
       ~Filter.dynamic
+      ~Filter.has_schema
       ~Filter.inbound_nodes
       ~Filter.input
       ~Filter.input_mask

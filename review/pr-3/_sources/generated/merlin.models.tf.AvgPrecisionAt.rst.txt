@@ -22,6 +22,7 @@
       ~AvgPrecisionAt.apply
       ~AvgPrecisionAt.build
       ~AvgPrecisionAt.call
+      ~AvgPrecisionAt.check_cast_inputs
       ~AvgPrecisionAt.compute_mask
       ~AvgPrecisionAt.compute_output_shape
       ~AvgPrecisionAt.compute_output_signature
@@ -39,7 +40,6 @@
       ~AvgPrecisionAt.get_updates_for
       ~AvgPrecisionAt.get_weights
       ~AvgPrecisionAt.merge_state
-      ~AvgPrecisionAt.metric_fn
       ~AvgPrecisionAt.reset_state
       ~AvgPrecisionAt.reset_states
       ~AvgPrecisionAt.result

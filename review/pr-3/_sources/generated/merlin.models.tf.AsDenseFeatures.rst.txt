@@ -72,6 +72,8 @@
       ~AsDenseFeatures.set_pre
       ~AsDenseFeatures.set_schema
       ~AsDenseFeatures.set_weights
+      ~AsDenseFeatures.super
+      ~AsDenseFeatures.to_model
       ~AsDenseFeatures.with_name_scope
    
    
@@ -90,6 +92,7 @@
       ~AsDenseFeatures.dtype
       ~AsDenseFeatures.dtype_policy
       ~AsDenseFeatures.dynamic
+      ~AsDenseFeatures.has_schema
       ~AsDenseFeatures.inbound_nodes
       ~AsDenseFeatures.input
       ~AsDenseFeatures.input_mask

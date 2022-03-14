@@ -145,19 +145,28 @@
 <dl class="py class">
 <dt id="merlin.models.tf.TwoTowerBlock">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">merlin.models.tf.</span></code><code class="sig-name descname"><span class="pre">TwoTowerBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/retrieval/two_tower.html#TwoTowerBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.TwoTowerBlock" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">merlin.models.tf.core.ParallelBlock</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">merlin.models.tf.blocks.retrieval.base.RetrievalMixin</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">merlin.models.tf.blocks.core.combinators.ParallelBlock</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">merlin.models.tf.blocks.retrieval.base.RetrievalMixin</span></code></p>
 <p>Builds the Two-tower architecture, as proposed in the following
 <a href="#id1"><span class="problematic" id="id2">`paper https://doi.org/10.1145/3298689.3346996`_</span></a> [Xinyang19].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>schema</strong> (<a class="reference internal" href="merlin.models.tf.Schema.html#merlin.models.tf.Schema" title="merlin.models.tf.Schema"><em>Schema</em></a>) – The <cite>Schema</cite> with the input features</p></li>
+<li><p><strong>schema</strong> (<em>Schema</em>) – The <cite>Schema</cite> with the input features</p></li>
 <li><p><strong>query_tower</strong> (<a class="reference internal" href="merlin.models.tf.Block.html#merlin.models.tf.Block" title="merlin.models.tf.Block"><em>Block</em></a>) – The <cite>Block</cite> that combines user features</p></li>
 <li><p><strong>item_tower</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="merlin.models.tf.Block.html#merlin.models.tf.Block" title="merlin.models.tf.Block"><em>Block</em></a><em>]</em><em>, </em><em>optional</em>) – The optional <cite>Block</cite> that combines items features.
 If not provided, a copy of the query_tower is used.</p></li>
 <li><p><strong>query_tower_tag</strong> (<em>Tag</em>) – The tag to select query features, by default <cite>Tags.USER</cite></p></li>
 <li><p><strong>item_tower_tag</strong> (<em>Tag</em>) – The tag to select item features, by default <cite>Tags.ITEM</cite></p></li>
-<li><p><strong>embedding_dim_default</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Dimension of the embeddings, by default 64</p></li>
+<li><p><strong>embedding_options</strong> (<a class="reference internal" href="merlin.models.tf.EmbeddingOptions.html#merlin.models.tf.EmbeddingOptions" title="merlin.models.tf.EmbeddingOptions"><em>EmbeddingOptions</em></a>) – Options for the input embeddings.
+- embedding_dims: Optional[Dict[str, int]] - The dimension of the
+embedding table for each feature (key), by default None
+- embedding_dim_default: int - Default dimension of the embedding
+table, when the feature is not found in <code class="docutils literal notranslate"><span class="pre">embedding_dims</span></code>, by default 64
+- infer_embedding_sizes : bool, Automatically defines the embedding
+dimension from the feature cardinality in the schema, by default False
+- infer_embedding_sizes_multiplier: int. Multiplier used by the heuristic
+to infer the embedding dimension from its cardinality. Generally
+reasonable values range between 2.0 and 10.0. By default 2.0.</p></li>
 <li><p><strong>post</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="merlin.models.tf.Block.html#merlin.models.tf.Block" title="merlin.models.tf.Block"><em>Block</em></a><em>]</em><em>, </em><em>optional</em>) – The optional <cite>Block</cite> to apply on both outputs of Two-tower model</p></li>
 </ul>
 </dd>
@@ -176,7 +185,7 @@ If not provided, a copy of the query_tower is used.</p></li>
 </dl>
 <dl class="py method">
 <dt id="merlin.models.tf.TwoTowerBlock.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">schema:</span> <span class="pre">merlin.schema.schema.Schema</span></em>, <em class="sig-param"><span class="pre">query_tower:</span> <span class="pre">merlin.models.tf.core.Block</span></em>, <em class="sig-param"><span class="pre">item_tower:</span> <span class="pre">Optional[merlin.models.tf.core.Block]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">query_tower_tag=&lt;Tags.USER:</span> <span class="pre">'user'&gt;</span></em>, <em class="sig-param"><span class="pre">item_tower_tag=&lt;Tags.ITEM:</span> <span class="pre">'item'&gt;</span></em>, <em class="sig-param"><span class="pre">embedding_dim_default:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">64</span></em>, <em class="sig-param"><span class="pre">post:</span> <span class="pre">Optional[Union[merlin.models.tf.core.Block</span></em>, <em class="sig-param"><span class="pre">str</span></em>, <em class="sig-param"><span class="pre">Sequence[str]]]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/retrieval/two_tower.html#TwoTowerBlock.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.TwoTowerBlock.__init__" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">schema:</span> <span class="pre">merlin.schema.schema.Schema</span></em>, <em class="sig-param"><span class="pre">query_tower:</span> <span class="pre">merlin.models.tf.blocks.core.base.Block</span></em>, <em class="sig-param"><span class="pre">item_tower:</span> <span class="pre">Optional[merlin.models.tf.blocks.core.base.Block]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">query_tower_tag=&lt;Tags.USER:</span> <span class="pre">'user'&gt;</span></em>, <em class="sig-param"><span class="pre">item_tower_tag=&lt;Tags.ITEM:</span> <span class="pre">'item'&gt;</span></em>, <em class="sig-param"><span class="pre">embedding_options:</span> <span class="pre">merlin.models.tf.features.embedding.EmbeddingOptions</span> <span class="pre">=</span> <span class="pre">EmbeddingOptions(embedding_dims=None</span></em>, <em class="sig-param"><span class="pre">embedding_dim_default=64</span></em>, <em class="sig-param"><span class="pre">infer_embedding_sizes=False</span></em>, <em class="sig-param"><span class="pre">infer_embedding_sizes_multiplier=2.0</span></em>, <em class="sig-param"><span class="pre">embeddings_initializers=None</span></em>, <em class="sig-param"><span class="pre">combiner='mean')</span></em>, <em class="sig-param"><span class="pre">post:</span> <span class="pre">Optional[Union[merlin.models.tf.blocks.core.base.Block</span></em>, <em class="sig-param"><span class="pre">str</span></em>, <em class="sig-param"><span class="pre">Sequence[str]]]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/retrieval/two_tower.html#TwoTowerBlock.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.TwoTowerBlock.__init__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -382,6 +391,12 @@ If not provided, a copy of the query_tower is used.</p></li>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_weights</span></code>(weights)</p></td>
 <td><p>Sets the weights of the layer, from NumPy arrays.</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">super</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_model</span></code>(schema[, input_block, prediction_tasks])</p></td>
+<td><p>Wrap the block between inputs &amp; outputs to create a model.</p></td>
+</tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">with_name_scope</span></code>(method)</p></td>
 <td><p>Decorator to automatically enter the module name scope.</p></td>
 </tr>
@@ -418,103 +433,106 @@ If not provided, a copy of the query_tower is used.</p></li>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dynamic</span></code></p></td>
 <td><p>Whether the layer is dynamic (eager-only); set in the constructor.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inbound_nodes</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_schema</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inbound_nodes</span></code></p></td>
 <td><p>Deprecated, do NOT use! Only for compatibility with external Keras.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></p></td>
 <td><p>Retrieves the input tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_mask</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_mask</span></code></p></td>
 <td><p>Retrieves the input mask tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_shape</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_shape</span></code></p></td>
 <td><p>Retrieves the input shape(s) of a layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_spec</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_spec</span></code></p></td>
 <td><p><cite>InputSpec</cite> instance(s) describing the input format for this layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_input</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_input</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_tabular</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_tabular</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">losses</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">losses</span></code></p></td>
 <td><p>List of losses added using the <cite>add_loss()</cite> API.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">metrics</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">metrics</span></code></p></td>
 <td><p>List of metrics added using the <cite>add_metric()</cite> API.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
 <td><p>Name of the layer (string), set in the constructor.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_scope</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_scope</span></code></p></td>
 <td><p>Returns a <cite>tf.name_scope</cite> instance for this class.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_variables</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_variables</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_weights</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_weights</span></code></p></td>
 <td><p>List of all non-trainable weights tracked by this layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outbound_nodes</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outbound_nodes</span></code></p></td>
 <td><p>Deprecated, do NOT use! Only for compatibility with external Keras.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output</span></code></p></td>
 <td><p>Retrieves the output tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_mask</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_mask</span></code></p></td>
 <td><p>Retrieves the output mask tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_shape</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_shape</span></code></p></td>
 <td><p>Retrieves the output shape(s) of a layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parallel_dict</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parallel_dict</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parallel_values</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parallel_values</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">post</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">post</span></code></p></td>
 <td><p>returns: :rtype: SequentialTabularTransformations, optional</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre</span></code></p></td>
 <td><p>returns: :rtype: SequentialTabularTransformations, optional</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">registry</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">registry</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">schema</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">schema</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stateful</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stateful</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">submodules</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">submodules</span></code></p></td>
 <td><p>Sequence of all sub-modules.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_masking</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_masking</span></code></p></td>
 <td><p>Whether this layer supports computing a mask using <cite>compute_mask</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_variables</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_variables</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_weights</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_weights</span></code></p></td>
 <td><p>List of all trainable weights tracked by this layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">updates</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">updates</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variable_dtype</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variable_dtype</span></code></p></td>
 <td><p>Alias of <cite>Layer.dtype</cite>, the dtype of the weights.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
 <td><p>Returns the list of all layer variables/weights.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">weights</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">weights</span></code></p></td>
 <td><p>Returns the list of all layer variables/weights.</p></td>
 </tr>
 </tbody>

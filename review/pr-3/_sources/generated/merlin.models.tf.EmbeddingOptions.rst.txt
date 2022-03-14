@@ -25,6 +25,7 @@
    
       ~EmbeddingOptions.combiner
       ~EmbeddingOptions.embedding_dim_default
+      ~EmbeddingOptions.embedding_dims
       ~EmbeddingOptions.embeddings_initializers
       ~EmbeddingOptions.infer_embedding_sizes
       ~EmbeddingOptions.infer_embedding_sizes_multiplier

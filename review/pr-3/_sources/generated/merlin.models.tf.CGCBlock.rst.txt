@@ -75,6 +75,8 @@
       ~CGCBlock.set_pre
       ~CGCBlock.set_schema
       ~CGCBlock.set_weights
+      ~CGCBlock.super
+      ~CGCBlock.to_model
       ~CGCBlock.with_name_scope
    
    
@@ -93,6 +95,7 @@
       ~CGCBlock.dtype
       ~CGCBlock.dtype_policy
       ~CGCBlock.dynamic
+      ~CGCBlock.has_schema
       ~CGCBlock.inbound_nodes
       ~CGCBlock.input
       ~CGCBlock.input_mask

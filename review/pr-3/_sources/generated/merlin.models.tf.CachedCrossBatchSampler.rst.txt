@@ -62,6 +62,7 @@
       ~CachedCrossBatchSampler.input_mask
       ~CachedCrossBatchSampler.input_shape
       ~CachedCrossBatchSampler.input_spec
+      ~CachedCrossBatchSampler.item_embeddings_queue
       ~CachedCrossBatchSampler.losses
       ~CachedCrossBatchSampler.max_num_samples
       ~CachedCrossBatchSampler.metrics

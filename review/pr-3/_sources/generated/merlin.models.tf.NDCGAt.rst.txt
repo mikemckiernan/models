@@ -22,6 +22,7 @@
       ~NDCGAt.apply
       ~NDCGAt.build
       ~NDCGAt.call
+      ~NDCGAt.check_cast_inputs
       ~NDCGAt.compute_mask
       ~NDCGAt.compute_output_shape
       ~NDCGAt.compute_output_signature
@@ -39,7 +40,6 @@
       ~NDCGAt.get_updates_for
       ~NDCGAt.get_weights
       ~NDCGAt.merge_state
-      ~NDCGAt.metric_fn
       ~NDCGAt.reset_state
       ~NDCGAt.reset_states
       ~NDCGAt.result

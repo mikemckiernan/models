@@ -77,6 +77,8 @@
       ~TwoTowerBlock.set_pre
       ~TwoTowerBlock.set_schema
       ~TwoTowerBlock.set_weights
+      ~TwoTowerBlock.super
+      ~TwoTowerBlock.to_model
       ~TwoTowerBlock.with_name_scope
    
    
@@ -95,6 +97,7 @@
       ~TwoTowerBlock.dtype
       ~TwoTowerBlock.dtype_policy
       ~TwoTowerBlock.dynamic
+      ~TwoTowerBlock.has_schema
       ~TwoTowerBlock.inbound_nodes
       ~TwoTowerBlock.input
       ~TwoTowerBlock.input_mask

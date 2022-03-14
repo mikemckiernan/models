@@ -36,6 +36,7 @@
       ~Model.finalize_state
       ~Model.fit
       ~Model.fit_generator
+      ~Model.from_block
       ~Model.from_config
       ~Model.get_config
       ~Model.get_input_at

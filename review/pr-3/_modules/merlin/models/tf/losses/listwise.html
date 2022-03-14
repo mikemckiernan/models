@@ -83,7 +83,7 @@
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.losses</span> <span class="kn">import</span> <span class="n">CategoricalCrossentropy</span><span class="p">,</span> <span class="n">SparseCategoricalCrossentropy</span>
 
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">LossRegistryMixin</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.losses.base</span> <span class="kn">import</span> <span class="n">LossRegistryMixin</span>
 
 
 <div class="viewcode-block" id="SparseCategoricalCrossEntropy"><a class="viewcode-back" href="../../../../../generated/merlin.models.tf.losses.SparseCategoricalCrossEntropy.html#merlin.models.tf.losses.SparseCategoricalCrossEntropy">[docs]</a><span class="nd">@LossRegistryMixin</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">register_with_multiple_names</span><span class="p">(</span><span class="s2">&quot;sparse_categorical_crossentropy&quot;</span><span class="p">,</span> <span class="s2">&quot;sce&quot;</span><span class="p">)</span>

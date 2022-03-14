@@ -635,6 +635,8 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">column_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">tensors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
                 <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">column_names</span><span class="p">,</span> <span class="s2">&quot;column_names&quot;</span><span class="p">):</span>
+                <span class="n">column_names</span> <span class="o">=</span> <span class="n">column_names</span><span class="o">.</span><span class="n">column_names</span>
 
             <span class="n">gdf_i</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">column_names</span><span class="p">]</span>
             <span class="n">gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">column_names</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

@@ -20,10 +20,4 @@
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RegistryMixin.registry
-   
    

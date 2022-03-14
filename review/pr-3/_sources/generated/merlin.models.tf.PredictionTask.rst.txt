@@ -20,6 +20,7 @@
       ~PredictionTask.add_variable
       ~PredictionTask.add_weight
       ~PredictionTask.apply
+      ~PredictionTask.attach_metrics_calculation_to_loss
       ~PredictionTask.build
       ~PredictionTask.build_task
       ~PredictionTask.calculate_metrics
@@ -80,6 +81,7 @@
       ~PredictionTask.output
       ~PredictionTask.output_mask
       ~PredictionTask.output_shape
+      ~PredictionTask.pre_eval_topk
       ~PredictionTask.stateful
       ~PredictionTask.submodules
       ~PredictionTask.supports_masking

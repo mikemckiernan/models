@@ -76,7 +76,9 @@
       ~SequenceEmbeddingFeatures.set_pre
       ~SequenceEmbeddingFeatures.set_schema
       ~SequenceEmbeddingFeatures.set_weights
+      ~SequenceEmbeddingFeatures.super
       ~SequenceEmbeddingFeatures.table_config
+      ~SequenceEmbeddingFeatures.to_model
       ~SequenceEmbeddingFeatures.with_name_scope
    
    
@@ -95,6 +97,7 @@
       ~SequenceEmbeddingFeatures.dtype
       ~SequenceEmbeddingFeatures.dtype_policy
       ~SequenceEmbeddingFeatures.dynamic
+      ~SequenceEmbeddingFeatures.has_schema
       ~SequenceEmbeddingFeatures.inbound_nodes
       ~SequenceEmbeddingFeatures.input
       ~SequenceEmbeddingFeatures.input_mask

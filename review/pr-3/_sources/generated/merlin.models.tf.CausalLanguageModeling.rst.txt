@@ -62,6 +62,7 @@
       ~CausalLanguageModeling.select_by_name
       ~CausalLanguageModeling.set_schema
       ~CausalLanguageModeling.set_weights
+      ~CausalLanguageModeling.to_model
       ~CausalLanguageModeling.with_name_scope
    
    
@@ -79,6 +80,7 @@
       ~CausalLanguageModeling.dtype
       ~CausalLanguageModeling.dtype_policy
       ~CausalLanguageModeling.dynamic
+      ~CausalLanguageModeling.has_schema
       ~CausalLanguageModeling.inbound_nodes
       ~CausalLanguageModeling.input
       ~CausalLanguageModeling.input_mask

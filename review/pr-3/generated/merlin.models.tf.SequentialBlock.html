@@ -144,8 +144,8 @@
 <h1>merlin.models.tf.SequentialBlock<a class="headerlink" href="#merlin-models-tf-sequentialblock" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt id="merlin.models.tf.SequentialBlock">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">merlin.models.tf.</span></code><code class="sig-name descname"><span class="pre">SequentialBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">merlin.models.tf.core.Block</span></code></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">merlin.models.tf.</span></code><code class="sig-name descname"><span class="pre">SequentialBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">merlin.models.tf.blocks.core.base.Block</span></code></p>
 <p>The SequentialLayer represents a sequence of Keras layers.
 It is a Keras Layer that can be used instead of tf.keras.layers.Sequential,
 which is actually a Keras Model.  In contrast to keras Sequential, this
@@ -160,7 +160,7 @@ Usage:</p>
 </div>
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">merlin.schema.schema.Schema</span><span class="p"><span class="pre">,</span> </span><span class="pre">merlin.schema.tags.Tags</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">merlin.models.tf.core.Filter</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_aggregation</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">merlin.models.tf.core.TabularAggregation</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_layers</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.__init__" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">merlin.schema.schema.Schema</span><span class="p"><span class="pre">,</span> </span><span class="pre">merlin.schema.tags.Tags</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">merlin.models.tf.blocks.core.tabular.Filter</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_aggregation</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">merlin.models.tf.blocks.core.tabular.TabularAggregation</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_layers</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Create a composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -323,7 +323,10 @@ Usage:</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_weights</span></code>(weights)</p></td>
 <td><p>Sets the weights of the layer, from NumPy arrays.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">with_name_scope</span></code>(method)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_model</span></code>(schema[, input_block, prediction_tasks])</p></td>
+<td><p>Wrap the block between inputs &amp; outputs to create a model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">with_name_scope</span></code>(method)</p></td>
 <td><p>Decorator to automatically enter the module name scope.</p></td>
 </tr>
 </tbody>
@@ -362,119 +365,122 @@ Usage:</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.first" title="merlin.models.tf.SequentialBlock.first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inbound_nodes</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_schema</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inbound_nodes</span></code></p></td>
 <td><p>Deprecated, do NOT use! Only for compatibility with external Keras.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></p></td>
 <td><p>Retrieves the input tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_mask</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_mask</span></code></p></td>
 <td><p>Retrieves the input mask tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_shape</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_shape</span></code></p></td>
 <td><p>Retrieves the input shape(s) of a layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_spec</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_spec</span></code></p></td>
 <td><p><cite>InputSpec</cite> instance(s) describing the input format for this layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.inputs" title="merlin.models.tf.SequentialBlock.inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputs</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.inputs" title="merlin.models.tf.SequentialBlock.inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputs</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.is_tabular" title="merlin.models.tf.SequentialBlock.is_tabular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_tabular</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.is_tabular" title="merlin.models.tf.SequentialBlock.is_tabular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_tabular</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.last" title="merlin.models.tf.SequentialBlock.last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.last" title="merlin.models.tf.SequentialBlock.last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.losses" title="merlin.models.tf.SequentialBlock.losses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">losses</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.losses" title="merlin.models.tf.SequentialBlock.losses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">losses</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">metrics</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">metrics</span></code></p></td>
 <td><p>List of metrics added using the <cite>add_metric()</cite> API.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
 <td><p>Name of the layer (string), set in the constructor.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_scope</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_scope</span></code></p></td>
 <td><p>Returns a <cite>tf.name_scope</cite> instance for this class.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_variables</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_variables</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.non_trainable_weights" title="merlin.models.tf.SequentialBlock.non_trainable_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_weights</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.non_trainable_weights" title="merlin.models.tf.SequentialBlock.non_trainable_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_weights</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outbound_nodes</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outbound_nodes</span></code></p></td>
 <td><p>Deprecated, do NOT use! Only for compatibility with external Keras.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output</span></code></p></td>
 <td><p>Retrieves the output tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_mask</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_mask</span></code></p></td>
 <td><p>Retrieves the output mask tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_shape</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_shape</span></code></p></td>
 <td><p>Retrieves the output shape(s) of a layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">registry</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">registry</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.regularizers" title="merlin.models.tf.SequentialBlock.regularizers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">regularizers</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.regularizers" title="merlin.models.tf.SequentialBlock.regularizers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">regularizers</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">schema</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">schema</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stateful</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stateful</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">submodules</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">submodules</span></code></p></td>
 <td><p>Sequence of all sub-modules.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_masking</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_masking</span></code></p></td>
 <td><p>Whether this layer supports computing a mask using <cite>compute_mask</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.trainable" title="merlin.models.tf.SequentialBlock.trainable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.trainable" title="merlin.models.tf.SequentialBlock.trainable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_variables</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_variables</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.trainable_weights" title="merlin.models.tf.SequentialBlock.trainable_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_weights</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.SequentialBlock.trainable_weights" title="merlin.models.tf.SequentialBlock.trainable_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_weights</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">updates</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">updates</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variable_dtype</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variable_dtype</span></code></p></td>
 <td><p>Alias of <cite>Layer.dtype</cite>, the dtype of the weights.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
 <td><p>Returns the list of all layer variables/weights.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">weights</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">weights</span></code></p></td>
 <td><p>Returns the list of all layer variables/weights.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.compute_output_shape">
-<code class="sig-name descname"><span class="pre">compute_output_shape</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.compute_output_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.compute_output_shape" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">compute_output_shape</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.compute_output_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.compute_output_shape" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.compute_output_signature">
-<code class="sig-name descname"><span class="pre">compute_output_signature</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_signature</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.compute_output_signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.compute_output_signature" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">compute_output_signature</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_signature</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.compute_output_signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.compute_output_signature" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.build">
-<code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.build" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.build" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.set_schema">
-<code class="sig-name descname"><span class="pre">set_schema</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.set_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.set_schema" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">set_schema</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.set_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.set_schema" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -524,22 +530,22 @@ Usage:</p>
 
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.call">
-<code class="sig-name descname"><span class="pre">call</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.call" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">call</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.call" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.compute_loss">
-<code class="sig-name descname"><span class="pre">compute_loss</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.compute_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.compute_loss" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">compute_loss</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.compute_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.compute_loss" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.call_outputs">
-<code class="sig-name descname"><span class="pre">call_outputs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">merlin.models.tf.core.PredictionOutput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">merlin.models.tf.core.PredictionOutput</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.call_outputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.call_outputs" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">call_outputs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">merlin.models.tf.blocks.core.base.PredictionOutput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">merlin.models.tf.blocks.core.base.PredictionOutput</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.call_outputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.call_outputs" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.get_config">
-<code class="sig-name descname"><span class="pre">get_config</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.get_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.get_config" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">get_config</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.get_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.get_config" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -549,7 +555,7 @@ Usage:</p>
 
 <dl class="py method">
 <dt id="merlin.models.tf.SequentialBlock.from_config">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_objects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/core.html#SequentialBlock.from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.from_config" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_objects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/core/combinators.html#SequentialBlock.from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.SequentialBlock.from_config" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

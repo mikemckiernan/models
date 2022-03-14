@@ -75,6 +75,8 @@
       ~DualEncoderBlock.set_pre
       ~DualEncoderBlock.set_schema
       ~DualEncoderBlock.set_weights
+      ~DualEncoderBlock.super
+      ~DualEncoderBlock.to_model
       ~DualEncoderBlock.with_name_scope
    
    
@@ -93,6 +95,7 @@
       ~DualEncoderBlock.dtype
       ~DualEncoderBlock.dtype_policy
       ~DualEncoderBlock.dynamic
+      ~DualEncoderBlock.has_schema
       ~DualEncoderBlock.inbound_nodes
       ~DualEncoderBlock.input
       ~DualEncoderBlock.input_mask

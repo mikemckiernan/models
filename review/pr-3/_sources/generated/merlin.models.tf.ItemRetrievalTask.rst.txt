@@ -20,6 +20,7 @@
       ~ItemRetrievalTask.add_variable
       ~ItemRetrievalTask.add_weight
       ~ItemRetrievalTask.apply
+      ~ItemRetrievalTask.attach_metrics_calculation_to_loss
       ~ItemRetrievalTask.build
       ~ItemRetrievalTask.build_task
       ~ItemRetrievalTask.calculate_metrics
@@ -49,6 +50,7 @@
       ~ItemRetrievalTask.pre_loss
       ~ItemRetrievalTask.repr_add
       ~ItemRetrievalTask.reset_metrics
+      ~ItemRetrievalTask.set_retrieval_cache_query
       ~ItemRetrievalTask.set_weights
       ~ItemRetrievalTask.with_name_scope
    
@@ -83,6 +85,7 @@
       ~ItemRetrievalTask.output
       ~ItemRetrievalTask.output_mask
       ~ItemRetrievalTask.output_shape
+      ~ItemRetrievalTask.pre_eval_topk
       ~ItemRetrievalTask.retrieval_scorer
       ~ItemRetrievalTask.stateful
       ~ItemRetrievalTask.submodules

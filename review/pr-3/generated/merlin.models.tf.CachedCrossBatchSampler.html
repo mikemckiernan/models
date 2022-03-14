@@ -303,74 +303,82 @@ allows computing gradients for in-batch negative items</p></li>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_spec</span></code></p></td>
 <td><p><cite>InputSpec</cite> instance(s) describing the input format for this layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">losses</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#merlin.models.tf.CachedCrossBatchSampler.item_embeddings_queue" title="merlin.models.tf.CachedCrossBatchSampler.item_embeddings_queue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">item_embeddings_queue</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">losses</span></code></p></td>
 <td><p>List of losses added using the <cite>add_loss()</cite> API.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_num_samples</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_num_samples</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">metrics</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">metrics</span></code></p></td>
 <td><p>List of metrics added using the <cite>add_metric()</cite> API.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
 <td><p>Name of the layer (string), set in the constructor.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_scope</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_scope</span></code></p></td>
 <td><p>Returns a <cite>tf.name_scope</cite> instance for this class.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_variables</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_variables</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_weights</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_weights</span></code></p></td>
 <td><p>List of all non-trainable weights tracked by this layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outbound_nodes</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outbound_nodes</span></code></p></td>
 <td><p>Deprecated, do NOT use! Only for compatibility with external Keras.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output</span></code></p></td>
 <td><p>Retrieves the output tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_mask</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_mask</span></code></p></td>
 <td><p>Retrieves the output mask tensor(s) of a layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_shape</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_shape</span></code></p></td>
 <td><p>Retrieves the output shape(s) of a layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">required_features</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">required_features</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stateful</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stateful</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">submodules</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">submodules</span></code></p></td>
 <td><p>Sequence of all sub-modules.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_masking</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_masking</span></code></p></td>
 <td><p>Whether this layer supports computing a mask using <cite>compute_mask</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_variables</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_variables</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_weights</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_weights</span></code></p></td>
 <td><p>List of all trainable weights tracked by this layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">updates</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">updates</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variable_dtype</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variable_dtype</span></code></p></td>
 <td><p>Alias of <cite>Layer.dtype</cite>, the dtype of the weights.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
 <td><p>Returns the list of all layer variables/weights.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">weights</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">weights</span></code></p></td>
 <td><p>Returns the list of all layer variables/weights.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py method">
+<dt id="merlin.models.tf.CachedCrossBatchSampler.item_embeddings_queue">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">item_embeddings_queue</span></code><a class="headerlink" href="#merlin.models.tf.CachedCrossBatchSampler.item_embeddings_queue" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt id="merlin.models.tf.CachedCrossBatchSampler.build">
 <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shapes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">tensorflow.python.framework.ops.Tensor</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/merlin/models/tf/blocks/sampling/cross_batch.html#CachedCrossBatchSampler.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.CachedCrossBatchSampler.build" title="Permalink to this definition"></a></dt>
@@ -378,7 +386,7 @@ allows computing gradients for in-batch negative items</p></li>
 
 <dl class="py method">
 <dt id="merlin.models.tf.CachedCrossBatchSampler.call">
-<code class="sig-name descname"><span class="pre">call</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">tensorflow.python.framework.ops.Tensor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">merlin.models.tf.core.EmbeddingWithMetadata</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/sampling/cross_batch.html#CachedCrossBatchSampler.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.CachedCrossBatchSampler.call" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">call</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">tensorflow.python.framework.ops.Tensor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">merlin.models.tf.blocks.core.base.EmbeddingWithMetadata</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/sampling/cross_batch.html#CachedCrossBatchSampler.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.CachedCrossBatchSampler.call" title="Permalink to this definition"></a></dt>
 <dd><p>Adds the current batch to the FIFO queue cache and samples all items
 embeddings from the last N cached batches.</p>
 <dl class="field-list simple">
@@ -415,7 +423,7 @@ false negatives are identified and downscored.</p>
 
 <dl class="py method">
 <dt id="merlin.models.tf.CachedCrossBatchSampler.sample">
-<code class="sig-name descname"><span class="pre">sample</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">merlin.models.tf.core.EmbeddingWithMetadata</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/sampling/cross_batch.html#CachedCrossBatchSampler.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.CachedCrossBatchSampler.sample" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">sample</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">merlin.models.tf.blocks.core.base.EmbeddingWithMetadata</span><a class="reference internal" href="../_modules/merlin/models/tf/blocks/sampling/cross_batch.html#CachedCrossBatchSampler.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#merlin.models.tf.CachedCrossBatchSampler.sample" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

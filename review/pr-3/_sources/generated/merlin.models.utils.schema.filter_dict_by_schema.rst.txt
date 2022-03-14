@@ -1,6 +1,0 @@
-﻿merlin.models.utils.schema.filter\_dict\_by\_schema
-===================================================
-
-.. currentmodule:: merlin.models.utils.schema
-
-.. autofunction:: filter_dict_by_schema

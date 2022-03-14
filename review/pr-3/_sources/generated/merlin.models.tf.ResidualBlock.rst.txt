@@ -75,6 +75,8 @@
       ~ResidualBlock.set_pre
       ~ResidualBlock.set_schema
       ~ResidualBlock.set_weights
+      ~ResidualBlock.super
+      ~ResidualBlock.to_model
       ~ResidualBlock.with_name_scope
    
    
@@ -93,6 +95,7 @@
       ~ResidualBlock.dtype
       ~ResidualBlock.dtype_policy
       ~ResidualBlock.dynamic
+      ~ResidualBlock.has_schema
       ~ResidualBlock.inbound_nodes
       ~ResidualBlock.input
       ~ResidualBlock.input_mask

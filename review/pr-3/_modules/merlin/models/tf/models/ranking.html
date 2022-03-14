@@ -66,20 +66,22 @@
   <h1>Source code for merlin.models.tf.models.ranking</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.base</span> <span class="kn">import</span> <span class="n">Block</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.inputs</span> <span class="kn">import</span> <span class="n">InputBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.cross</span> <span class="kn">import</span> <span class="n">CrossBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.dlrm</span> <span class="kn">import</span> <span class="n">DLRMBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.mlp</span> <span class="kn">import</span> <span class="n">MLPBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.features.embedding</span> <span class="kn">import</span> <span class="n">EmbeddingOptions</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.models.base</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.models.utils</span> <span class="kn">import</span> <span class="n">parse_prediction_tasks</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.prediction_tasks.base</span> <span class="kn">import</span> <span class="n">ParallelPredictionBlock</span><span class="p">,</span> <span class="n">PredictionTask</span>
 <span class="kn">from</span> <span class="nn">merlin.schema</span> <span class="kn">import</span> <span class="n">Schema</span>
-
-<span class="kn">from</span> <span class="nn">..blocks.core.inputs</span> <span class="kn">import</span> <span class="n">InputBlock</span>
-<span class="kn">from</span> <span class="nn">..blocks.cross</span> <span class="kn">import</span> <span class="n">CrossBlock</span>
-<span class="kn">from</span> <span class="nn">..blocks.dlrm</span> <span class="kn">import</span> <span class="n">DLRMBlock</span>
-<span class="kn">from</span> <span class="nn">..blocks.mlp</span> <span class="kn">import</span> <span class="n">MLPBlock</span>
-<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">Model</span><span class="p">,</span> <span class="n">ParallelPredictionBlock</span><span class="p">,</span> <span class="n">PredictionTask</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">_parse_prediction_tasks</span>
 
 
 <div class="viewcode-block" id="DLRMModel"><a class="viewcode-back" href="../../../../../generated/merlin.models.tf.DLRMModel.html#merlin.models.tf.DLRMModel">[docs]</a><span class="k">def</span> <span class="nf">DLRMModel</span><span class="p">(</span>
     <span class="n">schema</span><span class="p">:</span> <span class="n">Schema</span><span class="p">,</span>
     <span class="n">embedding_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">bottom_block</span><span class="p">:</span> <span class="n">Block</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">bottom_block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Block</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">top_block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Block</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">prediction_tasks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
         <span class="n">Union</span><span class="p">[</span><span class="n">PredictionTask</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PredictionTask</span><span class="p">],</span> <span class="n">ParallelPredictionBlock</span><span class="p">]</span>
@@ -117,7 +119,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">prediction_tasks</span> <span class="o">=</span> <span class="n">_parse_prediction_tasks</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">prediction_tasks</span><span class="p">)</span>
+    <span class="n">prediction_tasks</span> <span class="o">=</span> <span class="n">parse_prediction_tasks</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">prediction_tasks</span><span class="p">)</span>
 
     <span class="n">dlrm_body</span> <span class="o">=</span> <span class="n">DLRMBlock</span><span class="p">(</span>
         <span class="n">schema</span><span class="p">,</span>
@@ -136,6 +138,12 @@
     <span class="n">deep_block</span><span class="p">:</span> <span class="n">Block</span> <span class="o">=</span> <span class="n">MLPBlock</span><span class="p">([</span><span class="mi">512</span><span class="p">,</span> <span class="mi">256</span><span class="p">]),</span>
     <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">input_block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Block</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">embedding_options</span><span class="p">:</span> <span class="n">EmbeddingOptions</span> <span class="o">=</span> <span class="n">EmbeddingOptions</span><span class="p">(</span>
+        <span class="n">embedding_dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">embedding_dim_default</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+        <span class="n">infer_embedding_sizes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">infer_embedding_sizes_multiplier</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="p">),</span>
     <span class="n">prediction_tasks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
         <span class="n">Union</span><span class="p">[</span><span class="n">PredictionTask</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PredictionTask</span><span class="p">],</span> <span class="n">ParallelPredictionBlock</span><span class="p">]</span>
     <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -168,6 +176,17 @@
 <span class="sd">        Whether to use the stacked version of the model or the parallel version.</span>
 <span class="sd">    input_block : Block, optional</span>
 <span class="sd">        The `Block` to use as the input layer, by default None</span>
+<span class="sd">    embedding_options : EmbeddingOptions</span>
+<span class="sd">        Options for the input embeddings.</span>
+<span class="sd">        - embedding_dims: Optional[Dict[str, int]] - The dimension of the</span>
+<span class="sd">        embedding table for each feature (key), by default {}</span>
+<span class="sd">        - embedding_dim_default: int - Default dimension of the embedding</span>
+<span class="sd">        table, when the feature is not found in ``embedding_dims``, by default 64</span>
+<span class="sd">        - infer_embedding_sizes : bool, Automatically defines the embedding</span>
+<span class="sd">        dimension from the feature cardinality in the schema, by default False</span>
+<span class="sd">        - infer_embedding_sizes_multiplier: int. Multiplier used by the heuristic</span>
+<span class="sd">        to infer the embedding dimension from its cardinality. Generally</span>
+<span class="sd">        reasonable values range between 2.0 and 10.0. By default 2.0.</span>
 <span class="sd">    prediction_tasks: optional</span>
 <span class="sd">        The prediction tasks to be used, by default this will be inferred from the Schema.</span>
 
@@ -183,8 +202,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">aggregation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;aggregation&quot;</span><span class="p">,</span> <span class="s2">&quot;concat&quot;</span><span class="p">)</span>
-    <span class="n">input_block</span> <span class="o">=</span> <span class="n">input_block</span> <span class="ow">or</span> <span class="n">InputBlock</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">aggregation</span><span class="o">=</span><span class="n">aggregation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">prediction_tasks</span> <span class="o">=</span> <span class="n">_parse_prediction_tasks</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">prediction_tasks</span><span class="p">)</span>
+    <span class="n">input_block</span> <span class="o">=</span> <span class="n">input_block</span> <span class="ow">or</span> <span class="n">InputBlock</span><span class="p">(</span>
+        <span class="n">schema</span><span class="p">,</span> <span class="n">aggregation</span><span class="o">=</span><span class="n">aggregation</span><span class="p">,</span> <span class="n">embedding_options</span><span class="o">=</span><span class="n">embedding_options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    <span class="n">prediction_tasks</span> <span class="o">=</span> <span class="n">parse_prediction_tasks</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">prediction_tasks</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">stacked</span><span class="p">:</span>
         <span class="n">dcn_body</span> <span class="o">=</span> <span class="n">input_block</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">CrossBlock</span><span class="p">(</span><span class="n">depth</span><span class="p">),</span> <span class="n">deep_block</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>

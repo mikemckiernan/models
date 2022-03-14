@@ -59,6 +59,7 @@
       ~Block.select_by_name
       ~Block.set_schema
       ~Block.set_weights
+      ~Block.to_model
       ~Block.with_name_scope
    
    
@@ -76,6 +77,7 @@
       ~Block.dtype
       ~Block.dtype_policy
       ~Block.dynamic
+      ~Block.has_schema
       ~Block.inbound_nodes
       ~Block.input
       ~Block.input_mask

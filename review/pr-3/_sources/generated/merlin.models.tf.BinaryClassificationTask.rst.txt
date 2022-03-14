@@ -20,6 +20,7 @@
       ~BinaryClassificationTask.add_variable
       ~BinaryClassificationTask.add_weight
       ~BinaryClassificationTask.apply
+      ~BinaryClassificationTask.attach_metrics_calculation_to_loss
       ~BinaryClassificationTask.build
       ~BinaryClassificationTask.build_task
       ~BinaryClassificationTask.calculate_metrics
@@ -82,6 +83,7 @@
       ~BinaryClassificationTask.output
       ~BinaryClassificationTask.output_mask
       ~BinaryClassificationTask.output_shape
+      ~BinaryClassificationTask.pre_eval_topk
       ~BinaryClassificationTask.stateful
       ~BinaryClassificationTask.submodules
       ~BinaryClassificationTask.supports_masking

@@ -62,6 +62,7 @@
       ~MaskedLanguageModeling.select_by_name
       ~MaskedLanguageModeling.set_schema
       ~MaskedLanguageModeling.set_weights
+      ~MaskedLanguageModeling.to_model
       ~MaskedLanguageModeling.with_name_scope
    
    
@@ -79,6 +80,7 @@
       ~MaskedLanguageModeling.dtype
       ~MaskedLanguageModeling.dtype_policy
       ~MaskedLanguageModeling.dynamic
+      ~MaskedLanguageModeling.has_schema
       ~MaskedLanguageModeling.inbound_nodes
       ~MaskedLanguageModeling.input
       ~MaskedLanguageModeling.input_mask

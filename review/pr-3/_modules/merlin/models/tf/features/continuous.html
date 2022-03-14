@@ -84,16 +84,15 @@
 
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 
-<span class="kn">from</span> <span class="nn">merlin.models.utils.doc_utils</span> <span class="kn">import</span> <span class="n">docstring_parameter</span>
-<span class="kn">from</span> <span class="nn">merlin.schema</span> <span class="kn">import</span> <span class="n">Schema</span>
-
-<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.base</span> <span class="kn">import</span> <span class="n">BlockType</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.tabular</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TABULAR_MODULE_PARAMS_DOCSTRING</span><span class="p">,</span>
-    <span class="n">BlockType</span><span class="p">,</span>
     <span class="n">Filter</span><span class="p">,</span>
     <span class="n">TabularAggregationType</span><span class="p">,</span>
     <span class="n">TabularBlock</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">merlin.models.utils.doc_utils</span> <span class="kn">import</span> <span class="n">docstring_parameter</span>
+<span class="kn">from</span> <span class="nn">merlin.schema</span> <span class="kn">import</span> <span class="n">Schema</span>
 
 
 <div class="viewcode-block" id="ContinuousFeatures"><a class="viewcode-back" href="../../../../../generated/merlin.models.tf.ContinuousFeatures.html#merlin.models.tf.ContinuousFeatures">[docs]</a><span class="nd">@docstring_parameter</span><span class="p">(</span><span class="n">tabular_module_parameters</span><span class="o">=</span><span class="n">TABULAR_MODULE_PARAMS_DOCSTRING</span><span class="p">)</span>

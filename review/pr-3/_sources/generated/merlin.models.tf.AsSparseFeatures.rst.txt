@@ -72,6 +72,8 @@
       ~AsSparseFeatures.set_pre
       ~AsSparseFeatures.set_schema
       ~AsSparseFeatures.set_weights
+      ~AsSparseFeatures.super
+      ~AsSparseFeatures.to_model
       ~AsSparseFeatures.with_name_scope
    
    
@@ -90,6 +92,7 @@
       ~AsSparseFeatures.dtype
       ~AsSparseFeatures.dtype_policy
       ~AsSparseFeatures.dynamic
+      ~AsSparseFeatures.has_schema
       ~AsSparseFeatures.inbound_nodes
       ~AsSparseFeatures.input
       ~AsSparseFeatures.input_mask

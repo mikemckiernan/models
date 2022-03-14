@@ -140,7 +140,7 @@ Proceedings of the 10th ACM conference on recommender systems. 2016.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>schema</strong> (<a class="reference internal" href="merlin.models.tf.Schema.html#merlin.models.tf.Schema" title="merlin.models.tf.Schema"><em>Schema</em></a>) – The <cite>Schema</cite> with the input features</p></li>
+<li><p><strong>schema</strong> (<em>Schema</em>) – The <cite>Schema</cite> with the input features</p></li>
 <li><p><strong>aggregation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The aggregation method to use for the sequence of features.
 Defaults to <cite>concat</cite>.</p></li>
 <li><p><strong>top_block</strong> (<a class="reference internal" href="merlin.models.tf.Block.html#merlin.models.tf.Block" title="merlin.models.tf.Block"><em>Block</em></a>) – The <cite>Block</cite> that combines the top features</p></li>
@@ -149,12 +149,12 @@ Defaults to 100.</p></li>
 <li><p><strong>loss</strong> (<em>Optional</em><em>[</em><em>LossType</em><em>]</em>) – Loss function.
 Defaults to <cite>categorical_crossentropy</cite>.</p></li>
 <li><p><strong>metrics</strong> (<em>List</em><em>[</em><em>Metric</em><em>]</em>) – List of metrics to use.
-Defaults to <cite>ranking_metrics(top_ks=[10, 20])</cite></p></li>
+Defaults to <cite>ranking_metrics(top_ks=[10])</cite></p></li>
 <li><p><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to normalize the embeddings.
 Defaults to True.</p></li>
 <li><p><strong>extra_pre_call</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="merlin.models.tf.Block.html#merlin.models.tf.Block" title="merlin.models.tf.Block"><em>Block</em></a><em>]</em>) – The optional <cite>Block</cite> to apply before the model.</p></li>
 <li><p><strong>task_block</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="merlin.models.tf.Block.html#merlin.models.tf.Block" title="merlin.models.tf.Block"><em>Block</em></a><em>]</em>) – The optional <cite>Block</cite> to apply on the model.</p></li>
-<li><p><strong>softmax_temperature</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Parameter used to reduce model overconfidence, so that softmax(logits / T).
+<li><p><strong>logits_temperature</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Parameter used to reduce model overconfidence, so that logits / T.
 Defaults to 1.</p></li>
 <li><p><strong>seq_aggregator</strong> (<a class="reference internal" href="merlin.models.tf.Block.html#merlin.models.tf.Block" title="merlin.models.tf.Block"><em>Block</em></a>) – The <cite>Block</cite> to aggregate the sequence of features.</p></li>
 </ul>

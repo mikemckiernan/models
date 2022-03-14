@@ -177,7 +177,7 @@
 </table>
 <dl class="py attribute">
 <dt id="merlin.models.data.synthetic.SyntheticData.DATASETS">
-<code class="sig-name descname"><span class="pre">DATASETS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'e-commerce':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/ecommerce/small'),</span> <span class="pre">'e-commerce-large':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/ecommerce/large'),</span> <span class="pre">'ecommerce':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/ecommerce/small'),</span> <span class="pre">'ecommerce-large':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/ecommerce/large'),</span> <span class="pre">'music-streaming':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/music_streaming'),</span> <span class="pre">'music_streaming':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/music_streaming'),</span> <span class="pre">'sequence_testing':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/sequence_testing'),</span> <span class="pre">'social':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/social'),</span> <span class="pre">'testing':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/testing')}</span></em><a class="headerlink" href="#merlin.models.data.synthetic.SyntheticData.DATASETS" title="Permalink to this definition"></a></dt>
+<code class="sig-name descname"><span class="pre">DATASETS</span></code><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">{'e-commerce':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/ecommerce/small'),</span> <span class="pre">'e-commerce-large':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/ecommerce/large'),</span> <span class="pre">'ecommerce':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/ecommerce/small'),</span> <span class="pre">'ecommerce-large':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/ecommerce/large'),</span> <span class="pre">'music-streaming':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/music_streaming'),</span> <span class="pre">'music_streaming':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/music_streaming'),</span> <span class="pre">'sequence_testing':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/sequence_testing'),</span> <span class="pre">'social':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/social'),</span> <span class="pre">'testing':</span> <span class="pre">PosixPath('/home/runner/work/models/models/merlin/models/data/testing')}</span></em><a class="headerlink" href="#merlin.models.data.synthetic.SyntheticData.DATASETS" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -198,6 +198,16 @@
 <dl class="py method">
 <dt id="merlin.models.data.synthetic.SyntheticData.schema">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">schema</span></code><a class="headerlink" href="#merlin.models.data.synthetic.SyntheticData.schema" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="merlin.models.data.synthetic.SyntheticData.dataframe">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">dataframe</span></code><a class="headerlink" href="#merlin.models.data.synthetic.SyntheticData.dataframe" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="merlin.models.data.synthetic.SyntheticData.dataset">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">dataset</span></code><a class="headerlink" href="#merlin.models.data.synthetic.SyntheticData.dataset" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -223,16 +233,6 @@
 <dl class="py method">
 <dt id="merlin.models.data.synthetic.SyntheticData.torch_features_and_targets">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">torch_features_and_targets</span></code><a class="headerlink" href="#merlin.models.data.synthetic.SyntheticData.torch_features_and_targets" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="merlin.models.data.synthetic.SyntheticData.dataframe">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">dataframe</span></code><a class="headerlink" href="#merlin.models.data.synthetic.SyntheticData.dataframe" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="merlin.models.data.synthetic.SyntheticData.dataset">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">dataset</span></code><a class="headerlink" href="#merlin.models.data.synthetic.SyntheticData.dataset" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

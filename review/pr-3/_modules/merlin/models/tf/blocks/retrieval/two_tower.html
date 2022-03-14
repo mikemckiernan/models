@@ -85,12 +85,13 @@
 
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.base</span> <span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">BlockType</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.combinators</span> <span class="kn">import</span> <span class="n">ParallelBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.inputs</span> <span class="kn">import</span> <span class="n">InputBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.transformations</span> <span class="kn">import</span> <span class="n">L2Norm</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.retrieval.base</span> <span class="kn">import</span> <span class="n">RetrievalMixin</span><span class="p">,</span> <span class="n">TowerBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.features.embedding</span> <span class="kn">import</span> <span class="n">EmbeddingOptions</span>
 <span class="kn">from</span> <span class="nn">merlin.schema</span> <span class="kn">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Tags</span>
-
-<span class="kn">from</span> <span class="nn">...core</span> <span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">BlockType</span><span class="p">,</span> <span class="n">ParallelBlock</span>
-<span class="kn">from</span> <span class="nn">...features.embedding</span> <span class="kn">import</span> <span class="n">EmbeddingOptions</span>
-<span class="kn">from</span> <span class="nn">..core.inputs</span> <span class="kn">import</span> <span class="n">InputBlock</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">RetrievalMixin</span><span class="p">,</span> <span class="n">TowerBlock</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;merlin_models&quot;</span><span class="p">)</span>
 
@@ -114,8 +115,17 @@
 <span class="sd">        The tag to select query features, by default `Tags.USER`</span>
 <span class="sd">    item_tower_tag : Tag</span>
 <span class="sd">        The tag to select item features, by default `Tags.ITEM`</span>
-<span class="sd">    embedding_dim_default : Optional[int], optional</span>
-<span class="sd">        Dimension of the embeddings, by default 64</span>
+<span class="sd">    embedding_options : EmbeddingOptions</span>
+<span class="sd">        Options for the input embeddings.</span>
+<span class="sd">        - embedding_dims: Optional[Dict[str, int]] - The dimension of the</span>
+<span class="sd">        embedding table for each feature (key), by default None</span>
+<span class="sd">        - embedding_dim_default: int - Default dimension of the embedding</span>
+<span class="sd">        table, when the feature is not found in ``embedding_dims``, by default 64</span>
+<span class="sd">        - infer_embedding_sizes : bool, Automatically defines the embedding</span>
+<span class="sd">        dimension from the feature cardinality in the schema, by default False</span>
+<span class="sd">        - infer_embedding_sizes_multiplier: int. Multiplier used by the heuristic</span>
+<span class="sd">        to infer the embedding dimension from its cardinality. Generally</span>
+<span class="sd">        reasonable values range between 2.0 and 10.0. By default 2.0.</span>
 <span class="sd">    post: Optional[Block], optional</span>
 <span class="sd">        The optional `Block` to apply on both outputs of Two-tower model</span>
 
@@ -139,7 +149,12 @@
         <span class="n">item_tower</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Block</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">query_tower_tag</span><span class="o">=</span><span class="n">Tags</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span>
         <span class="n">item_tower_tag</span><span class="o">=</span><span class="n">Tags</span><span class="o">.</span><span class="n">ITEM</span><span class="p">,</span>
-        <span class="n">embedding_dim_default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+        <span class="n">embedding_options</span><span class="p">:</span> <span class="n">EmbeddingOptions</span> <span class="o">=</span> <span class="n">EmbeddingOptions</span><span class="p">(</span>
+            <span class="n">embedding_dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">embedding_dim_default</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+            <span class="n">infer_embedding_sizes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">infer_embedding_sizes_multiplier</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+        <span class="p">),</span>
         <span class="n">post</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BlockType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
@@ -149,7 +164,6 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The query_tower is required by TwoTower&quot;</span><span class="p">)</span>
 
         <span class="n">_item_tower</span><span class="p">:</span> <span class="n">Block</span> <span class="o">=</span> <span class="n">item_tower</span> <span class="ow">or</span> <span class="n">query_tower</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">embedding_options</span> <span class="o">=</span> <span class="n">EmbeddingOptions</span><span class="p">(</span><span class="n">embedding_dim_default</span><span class="o">=</span><span class="n">embedding_dim_default</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_item_tower</span><span class="p">,</span> <span class="s2">&quot;inputs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">item_schema</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">select_by_tag</span><span class="p">(</span><span class="n">item_tower_tag</span><span class="p">)</span> <span class="k">if</span> <span class="n">item_tower_tag</span> <span class="k">else</span> <span class="n">schema</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">item_schema</span><span class="p">:</span>
@@ -158,7 +172,7 @@
                     <span class="s2">&quot;required by item-tower&quot;</span>
                 <span class="p">)</span>
             <span class="n">item_tower_inputs</span> <span class="o">=</span> <span class="n">InputBlock</span><span class="p">(</span><span class="n">item_schema</span><span class="p">,</span> <span class="n">embedding_options</span><span class="o">=</span><span class="n">embedding_options</span><span class="p">)</span>
-            <span class="n">_item_tower</span> <span class="o">=</span> <span class="n">item_tower_inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">_item_tower</span><span class="p">)</span>
+            <span class="n">_item_tower</span> <span class="o">=</span> <span class="n">item_tower_inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">_item_tower</span><span class="p">)</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">L2Norm</span><span class="p">())</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">query_tower</span><span class="p">,</span> <span class="s2">&quot;inputs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">query_schema</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">select_by_tag</span><span class="p">(</span><span class="n">query_tower_tag</span><span class="p">)</span> <span class="k">if</span> <span class="n">query_tower_tag</span> <span class="k">else</span> <span class="n">schema</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">query_schema</span><span class="p">:</span>
@@ -167,7 +181,7 @@
                     <span class="s2">&quot;required by query-tower&quot;</span>
                 <span class="p">)</span>
             <span class="n">query_inputs</span> <span class="o">=</span> <span class="n">InputBlock</span><span class="p">(</span><span class="n">query_schema</span><span class="p">,</span> <span class="n">embedding_options</span><span class="o">=</span><span class="n">embedding_options</span><span class="p">)</span>
-            <span class="n">query_tower</span> <span class="o">=</span> <span class="n">query_inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">query_tower</span><span class="p">)</span>
+            <span class="n">query_tower</span> <span class="o">=</span> <span class="n">query_inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">query_tower</span><span class="p">)</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">L2Norm</span><span class="p">())</span>
         <span class="n">branches</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">TowerBlock</span><span class="p">(</span><span class="n">query_tower</span><span class="p">),</span> <span class="s2">&quot;item&quot;</span><span class="p">:</span> <span class="n">TowerBlock</span><span class="p">(</span><span class="n">_item_tower</span><span class="p">)}</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">branches</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>

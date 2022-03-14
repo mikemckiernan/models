@@ -72,6 +72,8 @@
       ~ContinuousFeatures.set_pre
       ~ContinuousFeatures.set_schema
       ~ContinuousFeatures.set_weights
+      ~ContinuousFeatures.super
+      ~ContinuousFeatures.to_model
       ~ContinuousFeatures.with_name_scope
    
    
@@ -90,6 +92,7 @@
       ~ContinuousFeatures.dtype
       ~ContinuousFeatures.dtype_policy
       ~ContinuousFeatures.dynamic
+      ~ContinuousFeatures.has_schema
       ~ContinuousFeatures.inbound_nodes
       ~ContinuousFeatures.input
       ~ContinuousFeatures.input_mask

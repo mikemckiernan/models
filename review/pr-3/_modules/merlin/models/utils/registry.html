@@ -337,11 +337,11 @@
 
 
 <div class="viewcode-block" id="RegistryMixin"><a class="viewcode-back" href="../../../../generated/merlin.models.utils.registry.RegistryMixin.html#merlin.models.utils.registry.RegistryMixin">[docs]</a><span class="k">class</span> <span class="nc">RegistryMixin</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">RegistryClassT</span><span class="p">],</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="n">registry</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">registry</span><span class="p">:</span> <span class="n">Registry</span>
 
 <div class="viewcode-block" id="RegistryMixin.parse"><a class="viewcode-back" href="../../../../generated/merlin.models.utils.registry.RegistryMixin.html#merlin.models.utils.registry.RegistryMixin.parse">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">class_or_str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RegistryClassT</span><span class="p">:</span>
-        <span class="n">output</span><span class="p">:</span> <span class="n">RegistryClassT</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">class_or_str</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">:</span> <span class="n">RegistryClassT</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">class_or_str</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 
         <span class="k">return</span> <span class="n">output</span></div></div>
 

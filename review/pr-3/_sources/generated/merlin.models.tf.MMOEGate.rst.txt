@@ -59,6 +59,7 @@
       ~MMOEGate.select_by_name
       ~MMOEGate.set_schema
       ~MMOEGate.set_weights
+      ~MMOEGate.to_model
       ~MMOEGate.with_name_scope
    
    
@@ -76,6 +77,7 @@
       ~MMOEGate.dtype
       ~MMOEGate.dtype_policy
       ~MMOEGate.dynamic
+      ~MMOEGate.has_schema
       ~MMOEGate.inbound_nodes
       ~MMOEGate.input
       ~MMOEGate.input_mask

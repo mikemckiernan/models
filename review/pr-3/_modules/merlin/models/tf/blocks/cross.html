@@ -83,11 +83,13 @@
 
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.combinators</span> <span class="kn">import</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">SequentialBlock</span><span class="p">,</span> <span class="n">TabularBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.mlp</span> <span class="kn">import</span> <span class="n">DenseMaybeLowRank</span><span class="p">,</span> <span class="n">InitializerType</span><span class="p">,</span> <span class="n">RegularizerType</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.utils.tf_utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">maybe_deserialize_keras_objects</span><span class="p">,</span>
+    <span class="n">maybe_serialize_keras_objects</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">merlin.schema</span> <span class="kn">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Tags</span>
-
-<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">SequentialBlock</span><span class="p">,</span> <span class="n">TabularBlock</span>
-<span class="kn">from</span> <span class="nn">..utils.tf_utils</span> <span class="kn">import</span> <span class="n">maybe_deserialize_keras_objects</span><span class="p">,</span> <span class="n">maybe_serialize_keras_objects</span>
-<span class="kn">from</span> <span class="nn">.mlp</span> <span class="kn">import</span> <span class="n">DenseMaybeLowRank</span><span class="p">,</span> <span class="n">InitializerType</span><span class="p">,</span> <span class="n">RegularizerType</span>
 
 
 <div class="viewcode-block" id="CrossBlock"><a class="viewcode-back" href="../../../../../generated/merlin.models.tf.CrossBlock.html#merlin.models.tf.CrossBlock">[docs]</a><span class="k">def</span> <span class="nf">CrossBlock</span><span class="p">(</span>

@@ -22,6 +22,7 @@
       ~RecallAt.apply
       ~RecallAt.build
       ~RecallAt.call
+      ~RecallAt.check_cast_inputs
       ~RecallAt.compute_mask
       ~RecallAt.compute_output_shape
       ~RecallAt.compute_output_signature
@@ -39,7 +40,6 @@
       ~RecallAt.get_updates_for
       ~RecallAt.get_weights
       ~RecallAt.merge_state
-      ~RecallAt.metric_fn
       ~RecallAt.reset_state
       ~RecallAt.reset_states
       ~RecallAt.result

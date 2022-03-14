@@ -90,29 +90,23 @@
 <span class="kn">from</span> <span class="nn">tensorflow.python.tpu.tpu_embedding_v2_utils</span> <span class="kn">import</span> <span class="n">FeatureConfig</span><span class="p">,</span> <span class="n">TableConfig</span>
 
 <span class="kn">import</span> <span class="nn">merlin.io</span>
-<span class="kn">from</span> <span class="nn">merlin.schema</span> <span class="kn">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Tags</span><span class="p">,</span> <span class="n">TagsType</span>
-
-<span class="kn">from</span> <span class="nn">...utils.doc_utils</span> <span class="kn">import</span> <span class="n">docstring_parameter</span>
-<span class="kn">from</span> <span class="nn">...utils.schema</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">categorical_cardinalities</span><span class="p">,</span>
-    <span class="n">categorical_domains</span><span class="p">,</span>
-    <span class="n">get_embedding_sizes_from_schema</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">..blocks.core.transformations</span> <span class="kn">import</span> <span class="n">AsSparseFeatures</span>
-<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.base</span> <span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">BlockType</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.combinators</span> <span class="kn">import</span> <span class="n">SequentialBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.tabular</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TABULAR_MODULE_PARAMS_DOCSTRING</span><span class="p">,</span>
-    <span class="n">Block</span><span class="p">,</span>
-    <span class="n">BlockType</span><span class="p">,</span>
     <span class="n">Filter</span><span class="p">,</span>
-    <span class="n">SequentialBlock</span><span class="p">,</span>
     <span class="n">TabularAggregationType</span><span class="p">,</span>
     <span class="n">TabularBlock</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.transformations</span> <span class="kn">import</span> <span class="n">AsDenseFeatures</span><span class="p">,</span> <span class="n">AsSparseFeatures</span>
 
 <span class="c1"># pylint has issues with TF array ops, so disable checks until fixed:</span>
 <span class="c1"># https://github.com/PyCQA/pylint/issues/3613</span>
 <span class="c1"># pylint: disable=no-value-for-parameter, unexpected-keyword-arg</span>
-<span class="kn">from</span> <span class="nn">..typing</span> <span class="kn">import</span> <span class="n">TabularData</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.typing</span> <span class="kn">import</span> <span class="n">TabularData</span>
+<span class="kn">from</span> <span class="nn">merlin.models.utils</span> <span class="kn">import</span> <span class="n">schema_utils</span>
+<span class="kn">from</span> <span class="nn">merlin.models.utils.doc_utils</span> <span class="kn">import</span> <span class="n">docstring_parameter</span>
+<span class="kn">from</span> <span class="nn">merlin.schema</span> <span class="kn">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Tags</span><span class="p">,</span> <span class="n">TagsType</span>
 
 <span class="n">EMBEDDING_FEATURES_PARAMS_DOCSTRING</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    feature_config: Dict[str, FeatureConfig]</span>
@@ -125,6 +119,7 @@
 
 <div class="viewcode-block" id="EmbeddingOptions"><a class="viewcode-back" href="../../../../../generated/merlin.models.tf.EmbeddingOptions.html#merlin.models.tf.EmbeddingOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">EmbeddingOptions</span><span class="p">:</span>
+    <span class="n">embedding_dims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">embedding_dim_default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">64</span>
     <span class="n">infer_embedding_sizes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">infer_embedding_sizes_multiplier</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
@@ -178,8 +173,7 @@
     <span class="k">def</span> <span class="nf">from_schema</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Schema</span><span class="p">,</span>
-        <span class="n">embedding_dims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">options</span><span class="p">:</span> <span class="n">EmbeddingOptions</span> <span class="o">=</span> <span class="n">EmbeddingOptions</span><span class="p">(),</span>
+        <span class="n">embedding_options</span><span class="p">:</span> <span class="n">EmbeddingOptions</span> <span class="o">=</span> <span class="n">EmbeddingOptions</span><span class="p">(),</span>
         <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TagsType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">max_sequence_length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
@@ -189,25 +183,26 @@
         <span class="k">if</span> <span class="n">tags</span><span class="p">:</span>
             <span class="n">schema_copy</span> <span class="o">=</span> <span class="n">schema_copy</span><span class="o">.</span><span class="n">select_by_tag</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">infer_embedding_sizes</span><span class="p">:</span>
-            <span class="n">embedding_dims</span> <span class="o">=</span> <span class="n">get_embedding_sizes_from_schema</span><span class="p">(</span>
-                <span class="n">schema</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">infer_embedding_sizes_multiplier</span>
+        <span class="n">embedding_dims</span> <span class="o">=</span> <span class="n">embedding_options</span><span class="o">.</span><span class="n">embedding_dims</span>
+        <span class="k">if</span> <span class="n">embedding_options</span><span class="o">.</span><span class="n">infer_embedding_sizes</span><span class="p">:</span>
+            <span class="n">embedding_dims</span> <span class="o">=</span> <span class="n">schema_utils</span><span class="o">.</span><span class="n">get_embedding_sizes_from_schema</span><span class="p">(</span>
+                <span class="n">schema</span><span class="p">,</span> <span class="n">embedding_options</span><span class="o">.</span><span class="n">infer_embedding_sizes_multiplier</span>
             <span class="p">)</span>
 
         <span class="n">embedding_dims</span> <span class="o">=</span> <span class="n">embedding_dims</span> <span class="ow">or</span> <span class="p">{}</span>
-        <span class="n">embeddings_initializers</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">embeddings_initializers</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">embeddings_initializers</span> <span class="o">=</span> <span class="n">embedding_options</span><span class="o">.</span><span class="n">embeddings_initializers</span> <span class="ow">or</span> <span class="p">{}</span>
 
         <span class="n">emb_config</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">cardinalities</span> <span class="o">=</span> <span class="n">categorical_cardinalities</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+        <span class="n">cardinalities</span> <span class="o">=</span> <span class="n">schema_utils</span><span class="o">.</span><span class="n">categorical_cardinalities</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">cardinality</span> <span class="ow">in</span> <span class="n">cardinalities</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">embedding_size</span> <span class="o">=</span> <span class="n">embedding_dims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">embedding_dim_default</span><span class="p">)</span>
+            <span class="n">embedding_size</span> <span class="o">=</span> <span class="n">embedding_dims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">embedding_options</span><span class="o">.</span><span class="n">embedding_dim_default</span><span class="p">)</span>
             <span class="n">embedding_initializer</span> <span class="o">=</span> <span class="n">embeddings_initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="n">emb_config</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cardinality</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">,</span> <span class="n">embedding_initializer</span><span class="p">)</span>
 
         <span class="n">feature_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FeatureConfig</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">tables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="n">domains</span> <span class="o">=</span> <span class="n">categorical_domains</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+        <span class="n">domains</span> <span class="o">=</span> <span class="n">schema_utils</span><span class="o">.</span><span class="n">categorical_domains</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">emb_initilizer</span><span class="p">)</span> <span class="ow">in</span> <span class="n">emb_config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">table_name</span> <span class="o">=</span> <span class="n">domains</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
             <span class="n">table</span> <span class="o">=</span> <span class="n">tables</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -216,7 +211,7 @@
                     <span class="n">vocabulary_size</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">,</span>
                     <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
-                    <span class="n">combiner</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">combiner</span><span class="p">,</span>
+                    <span class="n">combiner</span><span class="o">=</span><span class="n">embedding_options</span><span class="o">.</span><span class="n">combiner</span><span class="p">,</span>
                     <span class="n">initializer</span><span class="o">=</span><span class="n">emb_initilizer</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">tables</span><span class="p">[</span><span class="n">table_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span>
@@ -381,6 +376,7 @@
 <div class="viewcode-block" id="SequenceEmbeddingFeatures.__init__"><a class="viewcode-back" href="../../../../../generated/merlin.models.tf.SequenceEmbeddingFeatures.html#merlin.models.tf.SequenceEmbeddingFeatures.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">feature_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FeatureConfig</span><span class="p">],</span>
+        <span class="n">max_seq_length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">mask_zero</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">padding_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">pre</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BlockType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -388,15 +384,21 @@
         <span class="n">aggregation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TabularAggregationType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Schema</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">add_default_pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="k">if</span> <span class="n">add_default_pre</span><span class="p">:</span>
+            <span class="n">embedding_pre</span> <span class="o">=</span> <span class="p">[</span><span class="n">Filter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">feature_config</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span> <span class="n">AsDenseFeatures</span><span class="p">(</span><span class="n">max_seq_length</span><span class="p">)]</span>
+            <span class="n">pre</span> <span class="o">=</span> <span class="p">[</span><span class="n">embedding_pre</span><span class="p">,</span> <span class="n">pre</span><span class="p">]</span> <span class="k">if</span> <span class="n">pre</span> <span class="k">else</span> <span class="n">embedding_pre</span>  <span class="c1"># type: ignore</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">feature_config</span><span class="p">,</span>
+            <span class="n">feature_config</span><span class="o">=</span><span class="n">feature_config</span><span class="p">,</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
             <span class="n">aggregation</span><span class="o">=</span><span class="n">aggregation</span><span class="p">,</span>
-            <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+            <span class="n">add_default_pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">padding_idx</span> <span class="o">=</span> <span class="n">padding_idx</span>

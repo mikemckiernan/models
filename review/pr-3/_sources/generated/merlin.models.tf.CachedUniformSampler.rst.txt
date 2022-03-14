@@ -62,6 +62,7 @@
       ~CachedUniformSampler.input_mask
       ~CachedUniformSampler.input_shape
       ~CachedUniformSampler.input_spec
+      ~CachedUniformSampler.item_embeddings_queue
       ~CachedUniformSampler.losses
       ~CachedUniformSampler.max_num_samples
       ~CachedUniformSampler.metrics

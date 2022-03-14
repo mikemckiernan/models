@@ -83,7 +83,9 @@
       ~ParallelPredictionBlock.set_pre
       ~ParallelPredictionBlock.set_schema
       ~ParallelPredictionBlock.set_weights
+      ~ParallelPredictionBlock.super
       ~ParallelPredictionBlock.task_names_from_schema
+      ~ParallelPredictionBlock.to_model
       ~ParallelPredictionBlock.with_name_scope
    
    
@@ -102,6 +104,7 @@
       ~ParallelPredictionBlock.dtype
       ~ParallelPredictionBlock.dtype_policy
       ~ParallelPredictionBlock.dynamic
+      ~ParallelPredictionBlock.has_schema
       ~ParallelPredictionBlock.inbound_nodes
       ~ParallelPredictionBlock.input
       ~ParallelPredictionBlock.input_mask

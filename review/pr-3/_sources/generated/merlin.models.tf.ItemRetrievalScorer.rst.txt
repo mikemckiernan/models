@@ -63,6 +63,7 @@
       ~ItemRetrievalScorer.set_required_features
       ~ItemRetrievalScorer.set_schema
       ~ItemRetrievalScorer.set_weights
+      ~ItemRetrievalScorer.to_model
       ~ItemRetrievalScorer.with_name_scope
    
    
@@ -80,6 +81,7 @@
       ~ItemRetrievalScorer.dtype
       ~ItemRetrievalScorer.dtype_policy
       ~ItemRetrievalScorer.dynamic
+      ~ItemRetrievalScorer.has_schema
       ~ItemRetrievalScorer.inbound_nodes
       ~ItemRetrievalScorer.input
       ~ItemRetrievalScorer.input_mask

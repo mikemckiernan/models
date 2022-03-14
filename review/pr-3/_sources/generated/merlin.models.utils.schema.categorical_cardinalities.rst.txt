@@ -1,6 +1,0 @@
-﻿merlin.models.utils.schema.categorical\_cardinalities
-=====================================================
-
-.. currentmodule:: merlin.models.utils.schema
-
-.. autofunction:: categorical_cardinalities

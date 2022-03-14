@@ -20,6 +20,7 @@
       ~MultiClassClassificationTask.add_variable
       ~MultiClassClassificationTask.add_weight
       ~MultiClassClassificationTask.apply
+      ~MultiClassClassificationTask.attach_metrics_calculation_to_loss
       ~MultiClassClassificationTask.build
       ~MultiClassClassificationTask.build_task
       ~MultiClassClassificationTask.calculate_metrics
@@ -83,6 +84,7 @@
       ~MultiClassClassificationTask.output
       ~MultiClassClassificationTask.output_mask
       ~MultiClassClassificationTask.output_shape
+      ~MultiClassClassificationTask.pre_eval_topk
       ~MultiClassClassificationTask.stateful
       ~MultiClassClassificationTask.submodules
       ~MultiClassClassificationTask.supports_masking

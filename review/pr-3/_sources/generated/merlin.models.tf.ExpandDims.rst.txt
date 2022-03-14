@@ -72,6 +72,8 @@
       ~ExpandDims.set_pre
       ~ExpandDims.set_schema
       ~ExpandDims.set_weights
+      ~ExpandDims.super
+      ~ExpandDims.to_model
       ~ExpandDims.with_name_scope
    
    
@@ -90,6 +92,7 @@
       ~ExpandDims.dtype
       ~ExpandDims.dtype_policy
       ~ExpandDims.dynamic
+      ~ExpandDims.has_schema
       ~ExpandDims.inbound_nodes
       ~ExpandDims.input
       ~ExpandDims.input_mask

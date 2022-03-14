@@ -83,11 +83,12 @@
 
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.aggregation</span> <span class="kn">import</span> <span class="n">StackFeatures</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.base</span> <span class="kn">import</span> <span class="n">Block</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.combinators</span> <span class="kn">import</span> <span class="n">ParallelBlock</span><span class="p">,</span> <span class="n">TabularBlock</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.prediction_tasks.base</span> <span class="kn">import</span> <span class="n">ParallelPredictionBlock</span><span class="p">,</span> <span class="n">PredictionTask</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.typing</span> <span class="kn">import</span> <span class="n">TabularData</span>
 <span class="kn">from</span> <span class="nn">merlin.schema</span> <span class="kn">import</span> <span class="n">Schema</span>
-
-<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">ParallelBlock</span><span class="p">,</span> <span class="n">ParallelPredictionBlock</span><span class="p">,</span> <span class="n">PredictionTask</span><span class="p">,</span> <span class="n">TabularBlock</span>
-<span class="kn">from</span> <span class="nn">..typing</span> <span class="kn">import</span> <span class="n">TabularData</span>
-<span class="kn">from</span> <span class="nn">.core.aggregation</span> <span class="kn">import</span> <span class="n">StackFeatures</span>
 
 
 <div class="viewcode-block" id="MMOEGate"><a class="viewcode-back" href="../../../../../generated/merlin.models.tf.MMOEGate.html#merlin.models.tf.MMOEGate">[docs]</a><span class="k">class</span> <span class="nc">MMOEGate</span><span class="p">(</span><span class="n">Block</span><span class="p">):</span>
@@ -129,9 +130,9 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">ParallelPredictionBlock</span><span class="p">):</span>
         <span class="n">output_names</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">task_names</span>
     <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">PredictionTask</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">):</span>
-        <span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">task_name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]</span>
+        <span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">task_name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">output_names</span> <span class="o">=</span> <span class="n">outputs</span>
+        <span class="n">output_names</span> <span class="o">=</span> <span class="n">outputs</span>  <span class="c1"># type: ignore</span>
 
     <span class="n">experts</span> <span class="o">=</span> <span class="n">expert_block</span><span class="o">.</span><span class="n">repeat_in_parallel</span><span class="p">(</span>
         <span class="n">num_experts</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;expert_&quot;</span><span class="p">,</span> <span class="n">aggregation</span><span class="o">=</span><span class="n">StackFeatures</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -166,7 +167,7 @@
                 <span class="nb">len</span><span class="p">(</span><span class="n">task_names</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_task_experts</span> <span class="o">+</span> <span class="n">num_shared_experts</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">dim</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expert_outputs</span><span class="p">:</span> <span class="n">TabularData</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TabularData</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expert_outputs</span><span class="p">:</span> <span class="n">TabularData</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TabularData</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
         <span class="n">outputs</span><span class="p">:</span> <span class="n">TabularData</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="n">shortcut</span> <span class="o">=</span> <span class="n">expert_outputs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;shortcut&quot;</span><span class="p">)</span>
@@ -216,9 +217,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">ParallelPredictionBlock</span><span class="p">):</span>
             <span class="n">output_names</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">task_names</span>
         <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">PredictionTask</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">):</span>
-            <span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">task_name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]</span>
+            <span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">task_name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">output_names</span> <span class="o">=</span> <span class="n">outputs</span>
+            <span class="n">output_names</span> <span class="o">=</span> <span class="n">outputs</span>  <span class="c1"># type: ignore</span>
         <span class="n">task_experts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">create_expert</span><span class="p">(</span><span class="n">expert_block</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">/expert_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

@@ -76,7 +76,9 @@
       ~EmbeddingFeatures.set_pre
       ~EmbeddingFeatures.set_schema
       ~EmbeddingFeatures.set_weights
+      ~EmbeddingFeatures.super
       ~EmbeddingFeatures.table_config
+      ~EmbeddingFeatures.to_model
       ~EmbeddingFeatures.with_name_scope
    
    
@@ -95,6 +97,7 @@
       ~EmbeddingFeatures.dtype
       ~EmbeddingFeatures.dtype_policy
       ~EmbeddingFeatures.dynamic
+      ~EmbeddingFeatures.has_schema
       ~EmbeddingFeatures.inbound_nodes
       ~EmbeddingFeatures.input
       ~EmbeddingFeatures.input_mask
