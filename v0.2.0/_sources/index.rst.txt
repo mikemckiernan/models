@@ -1,12 +1,11 @@
-Welcome to Merlin Models documentation!
-============================================
+Merlin Models
+=============
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+The Merlin Models library provides standard models for recommender systems
+with an aim for high-quality implementations that range from classic machine
+learning models to highly-advanced deep learning models.
 
-   Getting Started <getting_started>
-
+For more information, see the `Introduction <README.html>`_.
 
 Indices and tables
 ==================

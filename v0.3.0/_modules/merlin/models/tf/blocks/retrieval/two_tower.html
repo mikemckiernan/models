@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>merlin.models.tf.blocks.retrieval.two_tower &mdash; Merlin Models  documentation</title><link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../_static/mystnb.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -12,7 +14,11 @@
         <script src="../../../../../../_static/jquery.js"></script>
         <script src="../../../../../../_static/underscore.js"></script>
         <script src="../../../../../../_static/doctools.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script >let toggleHintShow = 'Click to show';</script>
+        <script >let toggleHintHide = 'Click to hide';</script>
+        <script >let toggleOpenOnPrint = 'true';</script>
+        <script src="../../../../../../_static/togglebutton.js"></script>
+        <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../search.html" /> 
@@ -37,7 +43,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../../README.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../../models_overview.html">Standard Models: Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../../examples/README.html">Example Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../examples/index.html">Example Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../../api.html">API Documentation</a></li>
 </ul>
 
@@ -89,7 +95,6 @@
 
 <span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.base</span> <span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">BlockType</span>
 <span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.inputs</span> <span class="kn">import</span> <span class="n">InputBlock</span>
-<span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.core.transformations</span> <span class="kn">import</span> <span class="n">L2Norm</span>
 <span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.retrieval.base</span> <span class="kn">import</span> <span class="n">DualEncoderBlock</span><span class="p">,</span> <span class="n">RetrievalMixin</span>
 <span class="kn">from</span> <span class="nn">merlin.models.tf.features.embedding</span> <span class="kn">import</span> <span class="n">EmbeddingOptions</span>
 <span class="kn">from</span> <span class="nn">merlin.schema</span> <span class="kn">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Tags</span>
@@ -173,7 +178,7 @@
                     <span class="s2">&quot;required by item-tower&quot;</span>
                 <span class="p">)</span>
             <span class="n">item_tower_inputs</span> <span class="o">=</span> <span class="n">InputBlock</span><span class="p">(</span><span class="n">item_schema</span><span class="p">,</span> <span class="n">embedding_options</span><span class="o">=</span><span class="n">embedding_options</span><span class="p">)</span>
-            <span class="n">_item_tower</span> <span class="o">=</span> <span class="n">item_tower_inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">_item_tower</span><span class="p">)</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">L2Norm</span><span class="p">())</span>
+            <span class="n">_item_tower</span> <span class="o">=</span> <span class="n">item_tower_inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">_item_tower</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">query_tower</span><span class="p">,</span> <span class="s2">&quot;inputs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">query_schema</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">select_by_tag</span><span class="p">(</span><span class="n">query_tower_tag</span><span class="p">)</span> <span class="k">if</span> <span class="n">query_tower_tag</span> <span class="k">else</span> <span class="n">schema</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">query_schema</span><span class="p">:</span>
@@ -182,7 +187,7 @@
                     <span class="s2">&quot;required by query-tower&quot;</span>
                 <span class="p">)</span>
             <span class="n">query_inputs</span> <span class="o">=</span> <span class="n">InputBlock</span><span class="p">(</span><span class="n">query_schema</span><span class="p">,</span> <span class="n">embedding_options</span><span class="o">=</span><span class="n">embedding_options</span><span class="p">)</span>
-            <span class="n">query_tower</span> <span class="o">=</span> <span class="n">query_inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">query_tower</span><span class="p">)</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">L2Norm</span><span class="p">())</span>
+            <span class="n">query_tower</span> <span class="o">=</span> <span class="n">query_inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">query_tower</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">query_tower</span><span class="p">,</span> <span class="n">_item_tower</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 </pre></div>
