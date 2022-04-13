@@ -38,7 +38,7 @@ With the Merlin dataloaders, you can:
 - Prepare batches asynchronously into the GPU to avoid CPU-to-GPU communication.
 - Integrate easily into existing TensorFlow or PyTorch training pipelines by using a similar API.
 
-To learn about the core features of Merlin Models, see the [Models Overview](docs/source/models_overview.md) page.
+To learn about the core features of Merlin Models, see the [Models Overview](https://nvidia-merlin.github.io/models/main/models_overview.html) page.
 
 ### Installation
 
