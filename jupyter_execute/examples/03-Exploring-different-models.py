@@ -33,7 +33,7 @@
 # train, valid = generate_data("aliccp-raw", 1000000, set_sizes=(0.7, 0.3))
 # ```
 # 
-# ### Learning objectives
+# ## Learning objectives
 # - Preparing the data with NVTabular
 # - Training different deep learning-based recommender models with Merlin Models
 

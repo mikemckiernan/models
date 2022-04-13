@@ -7,9 +7,7 @@ learning models to highly-advanced deep learning models.
 
 For more information, see the `Introduction <README.html>`_.
 
-Indices and tables
-==================
+Index
+=====
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

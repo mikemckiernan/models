@@ -41,7 +41,7 @@
     "train, valid = generate_data(\"aliccp-raw\", 1000000, set_sizes=(0.7, 0.3))\n",
     "```\n",
     "\n",
-    "### Learning objectives\n",
+    "## Learning objectives\n",
     "- Preparing the data with NVTabular\n",
     "- Training different deep learning-based recommender models with Merlin Models"
    ]
