@@ -27,7 +27,7 @@ Depending on which example you want to run, you should use any one of these Dock
 - [Merlin-Tensorflow-Training](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/merlin/containers/merlin-tensorflow-training) (contains Merlin Core, Merlin Models, NVTabular and TensorFlow)
 - [Merlin-Inference](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/merlin/containers/merlin-tensorflow-inference) (contains Merlin Core, Merlin Models, Merlin Systems, NVTabular, TensorFlow and Triton Inference Server)
 
-Alternatively, you can [install Merlin Models from source](../README.md#installing-merlin-models-from-source) and other required libraries to run the notebooks on your host.
+Alternatively, you can [install Merlin Models from source](https://github.com/NVIDIA-Merlin/models#installing-merlin-models-from-source) and other required libraries to run the notebooks on your host by following the instructions in the README from the GitHub repository.
 
 To run the example notebooks using Docker containers, perform the following steps:
 

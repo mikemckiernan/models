@@ -57,6 +57,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../additional_resources.html">Additional Resources</a></li>
 </ul>
 
         </div>
@@ -133,38 +134,11 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-05 14:47:25.928570: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2022-04-05 14:47:28.104380: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 16249 MB memory:  -&gt; device: 0, name: Quadro GV100, pci bus id: 0000:15:00.0, compute capability: 7.0
-2022-04-05 14:47:28.105455: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:1 with 29778 MB memory:  -&gt; device: 1, name: Quadro GV100, pci bus id: 0000:2d:00.0, compute capability: 7.0
-2022-04-05 14:47:28.110332: I tensorflow/stream_executor/cuda/cuda_driver.cc:739] failed to allocate 15.87G (17038311424 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
-2022-04-05 14:47:28.112154: I tensorflow/stream_executor/cuda/cuda_driver.cc:739] failed to allocate 14.28G (15334479872 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
-2022-04-05 14:47:28.114081: I tensorflow/stream_executor/cuda/cuda_driver.cc:739] failed to allocate 12.85G (13801031680 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
-</pre></div>
-</div>
-</div>
 </div>
 <p>We provide the <code class="docutils literal notranslate"><span class="pre">get_movielens()</span></code> function as a convenience to download the dataset, perform simple preprocessing, and split the data into training and validation datasets.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">get_movielens</span><span class="p">(</span><span class="n">variant</span><span class="o">=</span><span class="s2">&quot;ml-1m&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:tensorflow:From /home/gmoreira/projects/nvidia/nvidia_merlin/models/merlin/models/utils/nvt_utils.py:14: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
-Instructions for updating:
-Use `tf.config.list_physical_devices(&#39;GPU&#39;)` instead.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:tensorflow:From /home/gmoreira/projects/nvidia/nvidia_merlin/models/merlin/models/utils/nvt_utils.py:14: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
-Instructions for updating:
-Use `tf.config.list_physical_devices(&#39;GPU&#39;)` instead.
-2022-04-05 14:47:28.568643: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /device:GPU:0 with 16249 MB memory:  -&gt; device: 0, name: Quadro GV100, pci bus id: 0000:15:00.0, compute capability: 7.0
-2022-04-05 14:47:28.570027: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /device:GPU:1 with 29778 MB memory:  -&gt; device: 1, name: Quadro GV100, pci bus id: 0000:2d:00.0, compute capability: 7.0
-/home/gmoreira/miniconda3/envs/merlin_22.04_dev/lib/python3.8/site-packages/cudf/core/dataframe.py:1253: UserWarning: The deep parameter is ignored and is only included for pandas compatibility.
-  warnings.warn(
 </pre></div>
 </div>
 </div>
@@ -195,17 +169,6 @@ Use `tf.config.list_physical_devices(&#39;GPU&#39;)` instead.
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-05 14:47:29.832785: W tensorflow/python/util/util.cc:368] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>782/782 [==============================] - 18s 18ms/step - rating_binary/binary_classification_task/precision: 0.7286 - rating_binary/binary_classification_task/recall: 0.8216 - rating_binary/binary_classification_task/binary_accuracy: 0.7212 - rating_binary/binary_classification_task/auc: 0.7841 - loss: 0.5474 - regularization_loss: 0.0000e+00 - total_loss: 0.5474
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x7fb7c04772e0&gt;
-</pre></div>
-</div>
-</div>
 </div>
 <p>We evaluate the model…</p>
 <div class="cell docutils container">
@@ -214,30 +177,11 @@ Use `tf.config.list_physical_devices(&#39;GPU&#39;)` instead.
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-05 14:47:49.426085: W tensorflow/core/grappler/optimizers/loop_optimizer.cc:907] Skipping loop optimization for Merge node with control input: cond/then/_0/cond/cond/branch_executed/_170
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>196/196 [==============================] - 4s 12ms/step - rating_binary/binary_classification_task/precision: 0.7350 - rating_binary/binary_classification_task/recall: 0.8234 - rating_binary/binary_classification_task/binary_accuracy: 0.7285 - rating_binary/binary_classification_task/auc: 0.7936 - loss: 0.5388 - regularization_loss: 0.0000e+00 - total_loss: 0.5388
-</pre></div>
-</div>
-</div>
 </div>
 <p>… and check the evaluation metrics. We use by default typical binary classification metrics – Precision, Recall, Accuracy and AUC. But you can also provide your own metrics list by setting <code class="docutils literal notranslate"><span class="pre">BinaryClassificationTask(...,</span> <span class="pre">metrics=[])</span></code>.</p>
-<div class="cell docutils container">
+<div class="cell tag_metrics docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rating_binary/binary_classification_task/precision&#39;: 0.7349662184715271,
- &#39;rating_binary/binary_classification_task/recall&#39;: 0.8234366178512573,
- &#39;rating_binary/binary_classification_task/binary_accuracy&#39;: 0.7284606695175171,
- &#39;rating_binary/binary_classification_task/auc&#39;: 0.7936176657676697,
- &#39;loss&#39;: 0.5581252574920654,
- &#39;regularization_loss&#39;: 0.0,
- &#39;total_loss&#39;: 0.5581252574920654}
 </pre></div>
 </div>
 </div>
