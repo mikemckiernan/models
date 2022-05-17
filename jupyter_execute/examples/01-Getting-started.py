@@ -44,6 +44,7 @@
 # In[2]:
 
 
+import os
 import merlin.models.tf as mm
 
 from merlin.datasets.entertainment import get_movielens
@@ -54,7 +55,8 @@ from merlin.datasets.entertainment import get_movielens
 # In[3]:
 
 
-train, valid = get_movielens(variant="ml-1m")
+input_path = os.environ.get("INPUT_DATA_DIR", os.path.expanduser("~/merlin-models-data/movielens/"))
+train, valid = get_movielens(variant="ml-1m", path=input_path)
 
 
 # ## Training the DLRM Model with Merlin Models

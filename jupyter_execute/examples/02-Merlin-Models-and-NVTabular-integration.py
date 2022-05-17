@@ -57,7 +57,7 @@
 # 
 # **Let's take a look on the MovieLens 1M example.**
 
-# In[3]:
+# In[2]:
 
 
 import os
@@ -76,10 +76,14 @@ from merlin.schema.tags import Tags
 
 # We will use the utils function to download, extract and preprocess the dataset.
 
-# In[4]:
+# In[3]:
 
 
-train, valid = get_movielens(variant="ml-1m")
+input_path = os.environ.get(
+    "INPUT_DATA_DIR",
+    os.path.expanduser("~/merlin-models-data/movielens/")
+)
+train, valid = get_movielens(variant="ml-1m", path=input_path)
 
 
 # P.s. You can also choose to generate synthetic data to test your models using `generate_data()`. The `input` argument can be either the name of one of the supported public datasets (e.g. "movielens-1m", "criteo") or the schema of a dataset (which is explained next). For example:
@@ -95,7 +99,7 @@ train, valid = get_movielens(variant="ml-1m")
 
 # The `schema` can be interpreted as a list of features in the dataset, where each element describes metadata of the feature. It contains the name, some properties (e.g. statistics) depending on the feature type and multiple tags. 
 
-# In[5]:
+# In[4]:
 
 
 train.schema
@@ -103,7 +107,7 @@ train.schema
 
 # We can select the features by **name**.
 
-# In[6]:
+# In[5]:
 
 
 train.schema.select_by_name("userId")
@@ -114,49 +118,49 @@ train.schema.select_by_name("userId")
 
 # Alternatively, we can select them by `Tag`. We add `column_names` to the object to receive only names without all the additional metadata.
 
-# In[7]:
+# In[6]:
 
 
 # All categorical features
 train.schema.select_by_tag(Tags.CATEGORICAL).column_names
 
 
-# In[8]:
+# In[7]:
 
 
 # All continuous features
 train.schema.select_by_tag(Tags.CONTINUOUS).column_names
 
 
-# In[9]:
+# In[8]:
 
 
 # All targets
 train.schema.select_by_tag(Tags.TARGET).column_names
 
 
-# In[10]:
+# In[9]:
 
 
 # All features related to the item
 train.schema.select_by_tag(Tags.ITEM).column_names
 
 
-# In[11]:
+# In[10]:
 
 
 # The item id feature name
 train.schema.select_by_tag(Tags.ITEM_ID).column_names
 
 
-# In[12]:
+# In[11]:
 
 
 # All features related to the user
 train.schema.select_by_tag(Tags.USER).column_names
 
 
-# In[13]:
+# In[12]:
 
 
 # The user id feature name
@@ -165,7 +169,7 @@ train.schema.select_by_tag(Tags.USER_ID).column_names
 
 # We can also query all properties of a feature. Here we see that the cardinality (number of unique values) of the `movieId` feature is `3682`, which is an important information to build the corresponding embedding table.
 
-# In[14]:
+# In[13]:
 
 
 train.schema.select_by_tag(Tags.ITEM_ID)
@@ -185,7 +189,7 @@ train.schema.select_by_tag(Tags.ITEM_ID)
 
 # We will download the dataset, if it is not already downloaded and cached locally.
 
-# In[15]:
+# In[14]:
 
 
 input_path = os.environ.get(
@@ -196,12 +200,13 @@ name = "ml-1m"
 download_file(
     "http://files.grouplens.org/datasets/movielens/ml-1m.zip",
     os.path.join(input_path, "ml-1m.zip"),
+    redownload=False
 )
 
 
 # We preprocess the dataset and split it into training and validation.
 
-# In[16]:
+# In[15]:
 
 
 ratings = pd.read_csv(
@@ -236,7 +241,7 @@ valid.to_parquet(os.path.join(input_path, name, "valid.parquet"))
 
 # Categorify will transform categorical columns into contiguous integers (`0, ..., |C|`) for embedding layers. It collects the cardinality of the embedding table and tags it as categorical.
 
-# In[17]:
+# In[16]:
 
 
 cat_features = ["userId", "movieId"] >> ops.Categorify(dtype="int32")
@@ -244,7 +249,7 @@ cat_features = ["userId", "movieId"] >> ops.Categorify(dtype="int32")
 
 # The tags for `user`, `userId`, `item` and `itemId` cannot be inferred from the dataset. Therefore, we need to provide them manually during the NVTabular workflow. Actually, the `DLRMModel` does not differentiate between `user` and `item` features. But other architectures, such as the `TwoTowerModel` depends on the `user` and `item` features distinction. We will show how to tag features manually in a NVTabular workflow below. 
 
-# In[18]:
+# In[17]:
 
 
 feats_itemId = cat_features["movieId"] >> ops.TagAsItemID()
@@ -260,7 +265,7 @@ output = feats_itemId + feats_userId + feats_target
 
 # We fit the workflow to our train set and apply to the valid and test sets.
 
-# In[19]:
+# In[18]:
 
 
 get_ipython().run_cell_magic('time', '', 'train_path = os.path.join(input_path, name, "train.parquet")\nvalid_path = os.path.join(input_path, name, "valid.parquet")\noutput_path = os.path.join(input_path, name + "_integration")\n\nworkflow_fit_transform(output, train_path, valid_path, output_path)\n')
@@ -270,27 +275,27 @@ get_ipython().run_cell_magic('time', '', 'train_path = os.path.join(input_path, 
 
 # We can load the data as a Merlin Dataset object. The Dataset expect the schema as Protobuf text format (`.pbtxt`) file in the train/valid folder, which NVTabular automatically generates.
 
-# In[20]:
+# In[19]:
 
 
 train = merlin.io.Dataset(
-    os.path.join(input_path, name, "train"), engine="parquet"
+    os.path.join(input_path, name + "_integration", "train"), engine="parquet"
 )
 valid = merlin.io.Dataset(
-    os.path.join(input_path, name, "valid"), engine="parquet"
+    os.path.join(input_path, name + "_integration", "valid"), engine="parquet"
 )
 
 
 # We can see that the `schema` object contains the features tags and the cardinalities of the categorical features.
 # As we prepared only a minimal example, our schema has only tree features `movieId`, `userId` and `rating_binary`.|
 
-# In[21]:
+# In[20]:
 
 
 train.schema.column_names
 
 
-# In[22]:
+# In[21]:
 
 
 train.schema
@@ -298,7 +303,7 @@ train.schema
 
 # Here we train our model.
 
-# In[23]:
+# In[22]:
 
 
 model = mm.DLRMModel(
@@ -317,10 +322,15 @@ model.fit(train, batch_size=1024)
 
 # Let's run the evaluation on validations set. We use by default typical binary classification metrics -- Precision, Recall, Accuracy and AUC. But you also can provide your own metrics list by setting `BinaryClassificationTask(..., metrics=[])`.
 
-# In[24]:
+# In[23]:
 
 
 metrics = model.evaluate(valid, batch_size=1024, return_dict=True)
+
+
+# In[24]:
+
+
 metrics
 
 
@@ -339,9 +349,3 @@ metrics
 # In the next notebooks, we will explore multiple ranking models with Merlin Models.
 # 
 # You can learn more about NVTabular, its functionality and supported ops by visiting our [github repository](https://github.com/NVIDIA-Merlin/NVTabular/) or exploring the [examples](https://github.com/NVIDIA-Merlin/NVTabular/tree/main/examples), such as [`Getting Started MovieLens`](https://github.com/NVIDIA-Merlin/NVTabular/blob/main/examples/getting-started-movielens/02-ETL-with-NVTabular.ipynb) or [`Scaling Criteo`](https://github.com/NVIDIA-Merlin/NVTabular/tree/main/examples/scaling-criteo).
-
-# In[ ]:
-
-
-
-

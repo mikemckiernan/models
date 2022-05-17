@@ -41,8 +41,6 @@
 
 
 import os
-os.environ["TF_GPU_ALLOCATOR"]="cuda_malloc_async"
-import cudf
 
 import nvtabular as nvt
 from nvtabular.ops import *
@@ -74,7 +72,9 @@ logging.disable(logging.WARNING)
 from merlin.datasets.synthetic import generate_data
 
 DATA_FOLDER = os.environ.get("DATA_FOLDER", "/workspace/data/")
-train, valid = generate_data("aliccp-raw", 1000000, set_sizes=(0.7, 0.3))
+NUM_ROWS = os.environ.get("NUM_ROWS", 1000000)
+
+train, valid = generate_data("aliccp-raw", int(NUM_ROWS), set_sizes=(0.7, 0.3))
 
 
 # In[5]:
@@ -201,7 +201,6 @@ model = mm.TwoTowerModel(
 # In[14]:
 
 
-model.set_retrieval_candidates_for_evaluation(train)
 model.compile(optimizer='adam', run_eagerly=False)
 model.fit(train, validation_data=valid, batch_size=4096, epochs=3)
 

@@ -22,7 +22,7 @@
 
 # # Taking the Next Step with Merlin Models: Define Your Own Architecture
 # 
-# In [explore-different-models](https://github.com/NVIDIA-Merlin/models/blob/main/examples/Exploring-different-models.ipynb), we conducted a benchmark of standard and deep learning-based ranking models provided by the high-level Merlin Models API. The library also includes the standard components of deep learning that let recsys practitioners and researchers to define custom models, train and export them for inference.
+# In [Iterating over Deep Learning Models using Merlin Models](https://nvidia-merlin.github.io/models/main/examples/03-Exploring-different-models.html), we conducted a benchmark of standard and deep learning-based ranking models provided by the high-level Merlin Models API. The library also includes the standard components of deep learning that let recsys practitioners and researchers to define custom models, train and export them for inference.
 # 
 # 
 # In this example, we combine pre-existing blocks and demonstrate how to create the [DLRM](https://arxiv.org/abs/1906.00091) architecture.
@@ -114,7 +114,7 @@ valid.head()
 # In[5]:
 
 
-batch = mm.sample_batch(valid, batch_size=5, shuffle=False)
+batch = mm.sample_batch(valid, batch_size=5, shuffle=False, include_targets=False)
 batch["userId"]
 
 
@@ -202,7 +202,7 @@ for key, val in dlrm_input_block(batch).items():
 # - Concat the resulting pairwise interaction with the deep representation of conitnuous features (skip-connection). 
 # - Apply an `MLPBlock` with a series of dense layers to the concatenated tensor. 
 
-# First, we will use the `connect_with_shortcut` method to create first two operations of the DLRM interaction block:
+# First, we use the `connect_with_shortcut` method to create first two operations of the DLRM interaction block:
 
 # In[13]:
 
@@ -213,6 +213,8 @@ dlrm_interaction = dlrm_input_block.connect_with_shortcut(
     DotProductInteractionBlock(), shortcut_filter=mm.Filter("deep_continuous"), aggregation="concat"
 )
 
+
+# The `Filter` operation allows us to select the `deep_continuous` tensor from the `dlrm_input_block` outputs. 
 
 # The following diagram provides a visualization of the operations that we constructed in the `dlrm_interaction` object.
 # 
@@ -246,7 +248,7 @@ deep_dlrm_interaction(batch)
 from merlin.models.tf.blocks.core.transformations import LogitsTemperatureScaler
 
 binary_task = mm.BinaryClassificationTask(
-    target_name=sub_schema.select_by_tag(Tags.TARGET).column_names[0],
+    sub_schema,
     metrics=[tf.keras.metrics.AUC],
     pre=LogitsTemperatureScaler(temperature=2),
 )
@@ -264,22 +266,25 @@ model = deep_dlrm_interaction.connect(binary_task)
 type(model)
 
 
-# We train the model using the built-in Keras `fit` method: 
+# We train the model using the built-in tf.keras `fit` method: 
 
 # In[18]:
 
 
 model.compile(optimizer="adam")
-model.fit(train, batch_size=1024, epochs=5)
+model.fit(train, batch_size=1024, epochs=1)
 
 
-# We view the evaluation scores:
+# Let's check out the model evaluation scores:
 
 # In[19]:
 
 
-model.evaluate(valid, batch_size=1024, return_dict=True)
+metrics = model.evaluate(valid, batch_size=1024, return_dict=True)
+metrics
 
+
+# Note that the `evaluate()` progress bar shows the loss score for every batch, whereas the final loss stored in the dictionary represents the total loss across all batches. 
 
 # Save the model so we can use it for serving predictions in production or for resuming training with new observations:
 
@@ -296,7 +301,7 @@ model.save("custom_dlrm")
 # 
 # 
 # ## Next steps
-# To learn more about how to deploy the trained DLRM model, please visit [Merlin Systems](https://github.com/NVIDIA-Merlin/systems) library and execute the `Getting-started-with-Merlin-Systems` notebook that deploys a [NVTabular](https://github.com/NVIDIA-Merlin/NVTabular) Workflow and a trained model from Merlin Models to [Triton Inference Server](https://github.com/triton-inference-server/server). 
+# To learn more about how to deploy the trained DLRM model, please visit [Merlin Systems](https://github.com/NVIDIA-Merlin/systems) library and execute the `Serving-Ranking-Models-With-Merlin-Systems.ipynb` notebook that deploys an ensemble of a [NVTabular](https://github.com/NVIDIA-Merlin/NVTabular) Workflow and a trained model from Merlin Models to [Triton Inference Server](https://github.com/triton-inference-server/server). 
 # 
 # 
 # 

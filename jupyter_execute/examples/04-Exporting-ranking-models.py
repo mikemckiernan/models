@@ -43,13 +43,11 @@
 
 
 import os
-os.environ["TF_GPU_ALLOCATOR"]="cuda_malloc_async"
 
 import nvtabular as nvt
 from nvtabular.ops import *
 
 from merlin.models.utils.example_utils import workflow_fit_transform
-
 from merlin.schema.tags import Tags
 
 import merlin.models.tf as mm
@@ -69,12 +67,13 @@ import tensorflow as tf
 from merlin.datasets.synthetic import generate_data
 
 DATA_FOLDER = os.environ.get("DATA_FOLDER", "/workspace/data/")
+NUM_ROWS = os.environ.get("NUM_ROWS", 1000000)
 
-train, valid = generate_data("aliccp-raw", 1000000, set_sizes=(0.7, 0.3))
+train, valid = generate_data("aliccp-raw", int(NUM_ROWS), set_sizes=(0.7, 0.3))
 
 # save the datasets as parquet files
-train.to_ddf().to_parquet(os.path.join(DATA_FOLDER, 'train'))
-valid.to_ddf().to_parquet(os.path.join(DATA_FOLDER, 'valid'))
+train.to_ddf().to_parquet(os.path.join(DATA_FOLDER, "train"))
+valid.to_ddf().to_parquet(os.path.join(DATA_FOLDER, "valid"))
 
 
 # Let's define our input and output paths.
@@ -84,7 +83,7 @@ valid.to_ddf().to_parquet(os.path.join(DATA_FOLDER, 'valid'))
 
 train_path = os.path.join(DATA_FOLDER, "train", "part.0.parquet")
 valid_path = os.path.join(DATA_FOLDER, "valid", "part.0.parquet")
-output_path =os.path.join(DATA_FOLDER, "processed")
+output_path = os.path.join(DATA_FOLDER, "processed")
 
 
 # After we execute `fit()` and `transform()` functions on the raw dataset applying the operators defined in the NVTabular workflow pipeline below, the processed parquet files are saved to `output_path`.
@@ -92,7 +91,7 @@ output_path =os.path.join(DATA_FOLDER, "processed")
 # In[5]:
 
 
-get_ipython().run_cell_magic('time', '', 'user_id = ["user_id"] >> Categorify() >> TagAsUserID()\nitem_id = ["item_id"] >> Categorify() >> TagAsItemID()\ntargets = ["click"] >> AddMetadata(tags=[Tags.BINARY_CLASSIFICATION, "target"])\n\nitem_features = ["item_category", "item_shop", "item_brand"] >> Categorify() >> TagAsItemFeatures()\n\nuser_features = [\'user_shops\', \'user_profile\', \'user_group\', \n       \'user_gender\', \'user_age\', \'user_consumption_2\', \'user_is_occupied\',\n       \'user_geography\', \'user_intentions\', \'user_brands\', \'user_categories\'] \\\n        >> Categorify() >> TagAsUserFeatures()\n\noutputs = user_id + item_id + item_features + user_features + targets\n\nworkflow = nvt.Workflow(outputs)\n\ntrain_dataset = nvt.Dataset(train_path)\nvalid_dataset = nvt.Dataset(valid_path)\n\nworkflow.fit(train_dataset)\nworkflow.transform(train_dataset).to_parquet(output_path=output_path + "/train/")\nworkflow.transform(valid_dataset).to_parquet(output_path=output_path + "/valid/")\n')
+get_ipython().run_cell_magic('time', '', 'user_id = ["user_id"] >> Categorify() >> TagAsUserID()\nitem_id = ["item_id"] >> Categorify() >> TagAsItemID()\ntargets = ["click"] >> AddMetadata(tags=[Tags.BINARY_CLASSIFICATION, "target"])\n\nitem_features = ["item_category", "item_shop", "item_brand"] >> Categorify() >> TagAsItemFeatures()\n\nuser_features = (\n    [\n        "user_shops",\n        "user_profile",\n        "user_group",\n        "user_gender",\n        "user_age",\n        "user_consumption_2",\n        "user_is_occupied",\n        "user_geography",\n        "user_intentions",\n        "user_brands",\n        "user_categories",\n    ]\n    >> Categorify()\n    >> TagAsUserFeatures()\n)\n\noutputs = user_id + item_id + item_features + user_features + targets\n\nworkflow = nvt.Workflow(outputs)\n\ntrain_dataset = nvt.Dataset(train_path)\nvalid_dataset = nvt.Dataset(valid_path)\n\nworkflow.fit(train_dataset)\nworkflow.transform(train_dataset).to_parquet(output_path=output_path + "/train/")\nworkflow.transform(valid_dataset).to_parquet(output_path=output_path + "/valid/")\n')
 
 
 # We save NVTabular `workflow` model in the current working directory.
@@ -100,14 +99,15 @@ get_ipython().run_cell_magic('time', '', 'user_id = ["user_id"] >> Categorify() 
 # In[6]:
 
 
-workflow.save('workflow')
+workflow.save("workflow")
 
 
 # Let's check out our saved workflow model folder.
 
-# In[ ]:
+# In[7]:
 
 
+get_ipython().system('apt-get update')
 get_ipython().system('apt-get install tree')
 
 
@@ -127,8 +127,8 @@ get_ipython().system('tree ./workflow')
 
 
 # define train and valid dataset objects
-train = Dataset(os.path.join(output_path, 'train', '*.parquet'))
-valid = Dataset(os.path.join(output_path, 'valid', '*.parquet'))
+train = Dataset(os.path.join(output_path, "train", "*.parquet"))
+valid = Dataset(os.path.join(output_path, "valid", "*.parquet"))
 
 # define schema object
 schema = train.schema
@@ -149,14 +149,14 @@ model = mm.DLRMModel(
     embedding_dim=64,
     bottom_block=mm.MLPBlock([128, 64]),
     top_block=mm.MLPBlock([128, 64, 32]),
-    prediction_tasks=mm.BinaryClassificationTask(target_column, metrics=[tf.keras.metrics.AUC()])
+    prediction_tasks=mm.BinaryClassificationTask(target_column, metrics=[tf.keras.metrics.AUC()]),
 )
 
 
 # In[12]:
 
 
-get_ipython().run_cell_magic('time', '', "\nmodel.compile('adam', run_eagerly=False)\nmodel.fit(train, validation_data=valid, batch_size=16*1024)\n")
+get_ipython().run_cell_magic('time', '', '\nmodel.compile("adam", run_eagerly=False)\nmodel.fit(train, validation_data=valid, batch_size=512)\n')
 
 
 # ### Save model
@@ -168,7 +168,7 @@ get_ipython().run_cell_magic('time', '', "\nmodel.compile('adam', run_eagerly=Fa
 # In[13]:
 
 
-model.save('dlrm')
+model.save("dlrm")
 
 
 # We have NVTabular wokflow  and DLRM model exported, now it is time to move on to the next step: model deployment with [Merlin Systems](https://github.com/NVIDIA-Merlin/systems).
