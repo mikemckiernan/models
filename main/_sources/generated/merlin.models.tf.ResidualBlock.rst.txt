@@ -73,7 +73,6 @@
       ~ResidualBlock.set_schema
       ~ResidualBlock.set_weights
       ~ResidualBlock.super
-      ~ResidualBlock.to_model
       ~ResidualBlock.with_name_scope
    
    
@@ -100,6 +99,7 @@
       ~ResidualBlock.input_spec
       ~ResidualBlock.is_input
       ~ResidualBlock.is_tabular
+      ~ResidualBlock.layers
       ~ResidualBlock.losses
       ~ResidualBlock.metrics
       ~ResidualBlock.name

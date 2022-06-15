@@ -73,7 +73,6 @@
       ~CGCBlock.set_schema
       ~CGCBlock.set_weights
       ~CGCBlock.super
-      ~CGCBlock.to_model
       ~CGCBlock.with_name_scope
    
    
@@ -100,6 +99,7 @@
       ~CGCBlock.input_spec
       ~CGCBlock.is_input
       ~CGCBlock.is_tabular
+      ~CGCBlock.layers
       ~CGCBlock.losses
       ~CGCBlock.metrics
       ~CGCBlock.name

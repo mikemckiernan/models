@@ -463,11 +463,13 @@
         <span class="n">targets</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">boolean_mask</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">non_pad_mask</span><span class="p">)</span>
 
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">),</span> <span class="s2">&quot;Predictions must be a tensor&quot;</span>
+
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()))</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="n">predictions</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
             <span class="n">predictions</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">boolean_mask</span><span class="p">(</span>
                 <span class="n">predictions</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">non_pad_mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">predictions</span><span class="p">))</span>
             <span class="p">)</span>
+
         <span class="k">return</span> <span class="n">outputs</span><span class="o">.</span><span class="n">copy_with_updates</span><span class="p">(</span>
             <span class="n">predictions</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span>
             <span class="n">targets</span><span class="o">=</span><span class="n">targets</span><span class="p">,</span>
@@ -674,6 +676,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">set_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reg_factor</span> <span class="o">=</span> <span class="n">reg_factor</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_items_cardinality</span><span class="p">(</span><span class="n">item_freq_probs</span><span class="p">)</span>
         <span class="n">candidate_probs</span> <span class="o">=</span> <span class="n">get_candidate_probs</span><span class="p">(</span><span class="n">item_freq_probs</span><span class="p">,</span> <span class="n">is_prob_distribution</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">candidate_probs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span>
@@ -755,6 +759,7 @@
 <span class="sd">            If True, the item_freq_probs should be a probability distribution of the items.</span>
 <span class="sd">            If False, the item frequencies is converted to probabilities</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_items_cardinality</span><span class="p">(</span><span class="n">item_freq_probs</span><span class="p">)</span>
         <span class="n">candidate_probs</span> <span class="o">=</span> <span class="n">get_candidate_probs</span><span class="p">(</span><span class="n">item_freq_probs</span><span class="p">,</span> <span class="n">is_prob_distribution</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">candidate_probs</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">candidate_probs</span><span class="p">)</span>
 
