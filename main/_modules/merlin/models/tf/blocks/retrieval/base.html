@@ -97,7 +97,7 @@
 <span class="kn">from</span> <span class="nn">merlin.models.tf.blocks.sampling.base</span> <span class="kn">import</span> <span class="n">ItemSampler</span>
 <span class="kn">from</span> <span class="nn">merlin.models.tf.core.base</span> <span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">BlockType</span><span class="p">,</span> <span class="n">EmbeddingWithMetadata</span><span class="p">,</span> <span class="n">PredictionOutput</span>
 <span class="kn">from</span> <span class="nn">merlin.models.tf.core.combinators</span> <span class="kn">import</span> <span class="n">ParallelBlock</span>
-<span class="kn">from</span> <span class="nn">merlin.models.tf.core.tabular</span> <span class="kn">import</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">TabularAggregationType</span>
+<span class="kn">from</span> <span class="nn">merlin.models.tf.core.tabular</span> <span class="kn">import</span> <span class="n">TabularAggregationType</span>
 <span class="kn">from</span> <span class="nn">merlin.models.tf.core.transformations</span> <span class="kn">import</span> <span class="n">L2Norm</span>
 <span class="kn">from</span> <span class="nn">merlin.models.tf.models.base</span> <span class="kn">import</span> <span class="n">ModelBlock</span>
 <span class="kn">from</span> <span class="nn">merlin.models.tf.typing</span> <span class="kn">import</span> <span class="n">TabularData</span>
@@ -175,10 +175,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_query_block</span> <span class="o">=</span> <span class="n">TowerBlock</span><span class="p">(</span><span class="n">query_block</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_item_block</span> <span class="o">=</span> <span class="n">TowerBlock</span><span class="p">(</span><span class="n">item_block</span><span class="p">)</span>
 
-        <span class="n">branches</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">Filter</span><span class="p">(</span><span class="n">query_block</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_query_block</span><span class="p">),</span>
-            <span class="s2">&quot;item&quot;</span><span class="p">:</span> <span class="n">Filter</span><span class="p">(</span><span class="n">item_block</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_item_block</span><span class="p">),</span>
-        <span class="p">}</span>
+        <span class="n">branches</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query_block</span><span class="p">,</span> <span class="s2">&quot;item&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_item_block</span><span class="p">}</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">branches</span><span class="p">,</span>
@@ -363,7 +360,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_softmax_mode</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
             <span class="n">positive_item_ids</span> <span class="o">=</span> <span class="n">targets</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">positive_item_ids</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">item_id_feature_name</span><span class="p">]</span>
+            <span class="n">positive_item_ids</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">item_id_feature_name</span><span class="p">])</span>
 
         <span class="n">neg_items_ids</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">training</span> <span class="ow">or</span> <span class="n">testing</span><span class="p">:</span>
@@ -378,9 +375,14 @@
                 <span class="p">)</span>
 
             <span class="n">batch_items_embeddings</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">item_name</span><span class="p">]</span>
-            <span class="n">batch_items_metadata</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">feat_name</span><span class="p">:</span> <span class="n">features</span><span class="p">[</span><span class="n">feat_name</span><span class="p">]</span> <span class="k">for</span> <span class="n">feat_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_required_features</span>
-            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_softmax_mode</span><span class="p">:</span>
+                <span class="n">batch_items_metadata</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">item_id_feature_name</span><span class="p">:</span> <span class="n">positive_item_ids</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">batch_items_metadata</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">feat_name</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">feat_name</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">feat_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_required_features</span>
+                <span class="p">}</span>
 
             <span class="n">positive_scores</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span>
                 <span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">query_name</span><span class="p">],</span> <span class="n">predictions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">item_name</span><span class="p">]),</span>
@@ -424,7 +426,7 @@
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
                     <span class="n">positive_item_ids</span> <span class="o">=</span> <span class="n">targets</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">positive_item_ids</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">item_id_feature_name</span><span class="p">]</span>
+                    <span class="n">positive_item_ids</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">item_id_feature_name</span><span class="p">])</span>
 
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">neg_items_ids_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">neg_items_ids</span> <span class="o">=</span> <span class="n">neg_items_ids_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -513,6 +515,12 @@
         <span class="n">config</span><span class="p">[</span><span class="s2">&quot;sampling_downscore_false_negatives&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downscore_false_negatives</span>
         <span class="n">config</span><span class="p">[</span><span class="s2">&quot;sampling_downscore_false_negatives_value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">false_negatives_score</span>
         <span class="n">config</span><span class="p">[</span><span class="s2">&quot;item_id_feature_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_id_feature_name</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;item_domain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_domain</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;query_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_name</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;item_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_name</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;cache_query&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_query</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;sampled_softmax_mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_softmax_mode</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;store_negative_ids&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_negative_ids</span>
 
         <span class="k">return</span> <span class="n">config</span>
 
