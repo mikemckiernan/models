@@ -38,7 +38,7 @@
    "source": [
     "<img src=\"https://developer.download.nvidia.com/notebooks/dlsw-notebooks/merlin_models_05-retrieval-model/nvidia_logo.png\" style=\"width: 90px; float: right;\">\n",
     "\n",
-    "# Two-Stage Recommender Systems\n",
+    "# Building a Retrieval Model with Merlin Models\n",
     "\n",
     "This notebook is created using the latest stable [merlin-tensorflow](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/merlin/containers/merlin-tensorflow/tags) container. \n",
     "\n",
@@ -90,9 +90,12 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "2022-05-09 08:50:20.819016: I tensorflow/core/platform/cpu_feature_guard.cc:152] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  SSE3 SSE4.1 SSE4.2 AVX\n",
-      "To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.\n",
-      "2022-05-09 08:50:21.707446: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 20268 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:4e:00.0, compute capability: 8.0\n"
+      "2022-10-19 17:29:47.304225: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.\n",
+      "2022-10-19 17:29:48.706986: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudnn.so.8'; dlerror: libcudnn.so.8: cannot open shared object file: No such file or directory\n",
+      "2022-10-19 17:29:48.707008: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1850] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.\n",
+      "Skipping registering GPU devices...\n",
+      "2022-10-19 17:29:48.739806: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F AVX512_VNNI FMA\n",
+      "To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.\n"
      ]
     }
    ],
@@ -113,7 +116,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 3,
    "id": "126c8bb8",
    "metadata": {
     "pycharm": {
@@ -154,14 +157,27 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 4,
    "id": "870acd78",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/schema/tags.py:148: UserWarning: Compound tags like Tags.USER_ID have been deprecated and will be removed in a future version. Please use the atomic versions of these tags, like [<Tags.USER: 'user'>, <Tags.ID: 'id'>].\n",
+      "  warnings.warn(\n",
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/schema/tags.py:148: UserWarning: Compound tags like Tags.ITEM_ID have been deprecated and will be removed in a future version. Please use the atomic versions of these tags, like [<Tags.ITEM: 'item'>, <Tags.ID: 'id'>].\n",
+      "  warnings.warn(\n",
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/io/dataset.py:251: UserWarning: Initializing an NVTabular Dataset in CPU mode.This is an experimental feature with extremely limited support!\n",
+      "  warnings.warn(\n"
+     ]
+    }
+   ],
    "source": [
     "from merlin.datasets.synthetic import generate_data\n",
     "\n",
@@ -178,7 +194,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 5,
    "id": "a47b29c6",
    "metadata": {
     "pycharm": {
@@ -205,7 +221,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 6,
    "id": "078593b4",
    "metadata": {
     "pycharm": {
@@ -214,10 +230,11 @@
    },
    "outputs": [],
    "source": [
-    "user_id = [\"user_id\"] >> Categorify() >> TagAsUserID()\n",
-    "item_id = [\"item_id\"] >> Categorify() >> TagAsItemID()\n",
+    "category_temp_directory = os.path.join(DATA_FOLDER, \"categories\")\n",
+    "user_id = [\"user_id\"] >> Categorify(out_path=category_temp_directory) >> TagAsUserID()\n",
+    "item_id = [\"item_id\"] >> Categorify(out_path=category_temp_directory) >> TagAsItemID()\n",
     "\n",
-    "item_features = [\"item_category\", \"item_shop\", \"item_brand\"] >> Categorify() >> TagAsItemFeatures()\n",
+    "item_features = [\"item_category\", \"item_shop\", \"item_brand\"] >> Categorify(out_path=category_temp_directory) >> TagAsItemFeatures()\n",
     "\n",
     "user_features = (\n",
     "    [\n",
@@ -233,7 +250,7 @@
     "        \"user_brands\",\n",
     "        \"user_categories\",\n",
     "    ]\n",
-    "    >> Categorify()\n",
+    "    >> Categorify(out_path=category_temp_directory)\n",
     "    >> TagAsUserFeatures()\n",
     ")\n",
     "\n",
@@ -256,14 +273,29 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 7,
    "id": "07ab4edc",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/schema/tags.py:148: UserWarning: Compound tags like Tags.USER_ID have been deprecated and will be removed in a future version. Please use the atomic versions of these tags, like [<Tags.USER: 'user'>, <Tags.ID: 'id'>].\n",
+      "  warnings.warn(\n",
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/io/dataset.py:251: UserWarning: Initializing an NVTabular Dataset in CPU mode.This is an experimental feature with extremely limited support!\n",
+      "  warnings.warn(\n",
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/schema/tags.py:148: UserWarning: Compound tags like Tags.USER_ID have been deprecated and will be removed in a future version. Please use the atomic versions of these tags, like [<Tags.USER: 'user'>, <Tags.ID: 'id'>].\n",
+      "  warnings.warn(\n",
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/schema/tags.py:148: UserWarning: Compound tags like Tags.ITEM_ID have been deprecated and will be removed in a future version. Please use the atomic versions of these tags, like [<Tags.ITEM: 'item'>, <Tags.ID: 'id'>].\n",
+      "  warnings.warn(\n"
+     ]
+    }
+   ],
    "source": [
     "from merlin.datasets.ecommerce import transform_aliccp\n",
     "\n",
@@ -314,21 +346,32 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 8,
    "id": "298655b7",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'workspace/data/processed'"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
     "output_path"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 9,
    "id": "a7e0c257",
    "metadata": {
     "pycharm": {
@@ -338,14 +381,20 @@
    "outputs": [],
    "source": [
     "train = Dataset(os.path.join(output_path, \"train\", \"*.parquet\"))\n",
-    "valid = Dataset(os.path.join(output_path, \"valid\", \"*.parquet\"))\n",
-    "\n",
-    "schema = train.schema"
+    "valid = Dataset(os.path.join(output_path, \"valid\", \"*.parquet\"))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fcdb2dbc-9bbd-46ad-aede-44c3ffbaac9d",
+   "metadata": {},
+   "source": [
+    "Select features with user and item tags, and be sure to exclude target column."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 10,
    "id": "94eb4048",
    "metadata": {
     "pycharm": {
@@ -354,7 +403,9 @@
    },
    "outputs": [],
    "source": [
-    "schema = schema.select_by_tag([Tags.ITEM_ID, Tags.USER_ID, Tags.ITEM, Tags.USER])"
+    "schema = train.schema.select_by_tag([Tags.ITEM_ID, Tags.USER_ID, Tags.ITEM, Tags.USER])\n",
+    "train.schema = schema\n",
+    "valid.schema = schema"
    ]
   },
   {
@@ -371,14 +422,40 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 11,
    "id": "04449fe3",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['user_id',\n",
+       " 'item_id',\n",
+       " 'item_category',\n",
+       " 'item_shop',\n",
+       " 'item_brand',\n",
+       " 'user_shops',\n",
+       " 'user_profile',\n",
+       " 'user_group',\n",
+       " 'user_gender',\n",
+       " 'user_age',\n",
+       " 'user_consumption_2',\n",
+       " 'user_is_occupied',\n",
+       " 'user_geography',\n",
+       " 'user_intentions',\n",
+       " 'user_brands',\n",
+       " 'user_categories']"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
     "schema.column_names"
    ]
@@ -397,14 +474,25 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 12,
    "id": "68bf449f",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[]"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
     "label_names = schema.select_by_tag(Tags.TARGET).column_names\n",
     "label_names"
@@ -450,7 +538,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 13,
    "id": "ab01339f",
    "metadata": {
     "pycharm": {
@@ -503,14 +591,37 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 14,
    "id": "1280bb4f",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Epoch 1/3\n",
+      "86/86 [==============================] - 18s 135ms/step - loss: 8.2951 - recall_at_10: 0.0223 - ndcg_at_10: 0.0182 - regularization_loss: 0.0000e+00 - val_loss: 8.2900 - val_recall_at_10: 0.0308 - val_ndcg_at_10: 0.0305 - val_regularization_loss: 0.0000e+00\n",
+      "Epoch 2/3\n",
+      "86/86 [==============================] - 11s 124ms/step - loss: 8.2947 - recall_at_10: 0.0301 - ndcg_at_10: 0.0298 - regularization_loss: 0.0000e+00 - val_loss: 8.2903 - val_recall_at_10: 0.0215 - val_ndcg_at_10: 0.0201 - val_regularization_loss: 0.0000e+00\n",
+      "Epoch 3/3\n",
+      "86/86 [==============================] - 11s 123ms/step - loss: 8.2937 - recall_at_10: 0.0212 - ndcg_at_10: 0.0192 - regularization_loss: 0.0000e+00 - val_loss: 8.2913 - val_recall_at_10: 0.0137 - val_ndcg_at_10: 0.0109 - val_regularization_loss: 0.0000e+00\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "<keras.callbacks.History at 0x7f6c3f7c4880>"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
     "model.compile(optimizer=\"adam\", run_eagerly=False, metrics=[mm.RecallAt(10), mm.NDCGAt(10)])\n",
     "model.fit(train, validation_data=valid, batch_size=4096, epochs=3)"
@@ -572,7 +683,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 15,
    "id": "07c68eb4",
    "metadata": {
     "pycharm": {
@@ -582,7 +693,7 @@
    "outputs": [],
    "source": [
     "query_tower = model.retrieval_block.query_block()\n",
-    "query_tower.save(\"query_tower\")"
+    "query_tower.save(os.path.join(DATA_FOLDER, \"query_tower\"))"
    ]
   },
   {
@@ -611,14 +722,23 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 16,
    "id": "1f861ac4",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/io/dataset.py:251: UserWarning: Initializing an NVTabular Dataset in CPU mode.This is an experimental feature with extremely limited support!\n",
+      "  warnings.warn(\n"
+     ]
+    }
+   ],
    "source": [
     "from merlin.models.utils.dataset import unique_rows_by_features\n",
     "\n",
@@ -629,35 +749,189 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 17,
    "id": "f88fcb3a",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>user_id</th>\n",
+       "      <th>user_shops</th>\n",
+       "      <th>user_profile</th>\n",
+       "      <th>user_group</th>\n",
+       "      <th>user_gender</th>\n",
+       "      <th>user_age</th>\n",
+       "      <th>user_consumption_2</th>\n",
+       "      <th>user_is_occupied</th>\n",
+       "      <th>user_geography</th>\n",
+       "      <th>user_intentions</th>\n",
+       "      <th>user_brands</th>\n",
+       "      <th>user_categories</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>4</td>\n",
+       "      <td>4</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>4</td>\n",
+       "      <td>4</td>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>14</td>\n",
+       "      <td>14</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>14</td>\n",
+       "      <td>14</td>\n",
+       "      <td>14</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>52</td>\n",
+       "      <td>52</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>52</td>\n",
+       "      <td>52</td>\n",
+       "      <td>52</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   user_id  user_shops  user_profile  user_group  user_gender  user_age  \\\n",
+       "0        1           1             1           1            1         1   \n",
+       "1        4           4             1           1            1         1   \n",
+       "2       14          14             1           1            1         1   \n",
+       "3       52          52             2           1            1         1   \n",
+       "4        5           5             1           1            1         1   \n",
+       "\n",
+       "   user_consumption_2  user_is_occupied  user_geography  user_intentions  \\\n",
+       "0                   1                 1               1                1   \n",
+       "1                   1                 1               1                4   \n",
+       "2                   1                 1               1               14   \n",
+       "3                   1                 1               1               52   \n",
+       "4                   1                 1               1                5   \n",
+       "\n",
+       "   user_brands  user_categories  \n",
+       "0            1                1  \n",
+       "1            4                4  \n",
+       "2           14               14  \n",
+       "3           52               52  \n",
+       "4            5                5  "
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
     "user_features.head()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 18,
    "id": "7479f68a",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(673, 12)"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
     "user_features.shape"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 19,
    "id": "33758417",
    "metadata": {
     "pycharm": {
@@ -667,7 +941,7 @@
    "outputs": [],
    "source": [
     "# save to disk\n",
-    "user_features.to_parquet(\"user_features.parquet\")"
+    "user_features.to_parquet(os.path.join(DATA_FOLDER, \"user_features.parquet\"))"
    ]
   },
   {
@@ -684,14 +958,23 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 20,
    "id": "3ae320ec",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/io/dataset.py:251: UserWarning: Initializing an NVTabular Dataset in CPU mode.This is an experimental feature with extremely limited support!\n",
+      "  warnings.warn(\n"
+     ]
+    }
+   ],
    "source": [
     "item_features = (\n",
     "    unique_rows_by_features(train, Tags.ITEM, Tags.ITEM_ID).compute().reset_index(drop=True)\n",
@@ -700,21 +983,102 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 21,
    "id": "8a24dcb8",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>item_id</th>\n",
+       "      <th>item_category</th>\n",
+       "      <th>item_shop</th>\n",
+       "      <th>item_brand</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>30</td>\n",
+       "      <td>30</td>\n",
+       "      <td>30</td>\n",
+       "      <td>30</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>27</td>\n",
+       "      <td>27</td>\n",
+       "      <td>27</td>\n",
+       "      <td>27</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>15</td>\n",
+       "      <td>15</td>\n",
+       "      <td>15</td>\n",
+       "      <td>15</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>6</td>\n",
+       "      <td>6</td>\n",
+       "      <td>6</td>\n",
+       "      <td>6</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   item_id  item_category  item_shop  item_brand\n",
+       "0       30             30         30          30\n",
+       "1       27             27         27          27\n",
+       "2       15             15         15          15\n",
+       "3        6              6          6           6\n",
+       "4        5              5          5           5"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
     "item_features.head()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 22,
    "id": "40102380",
    "metadata": {
     "pycharm": {
@@ -724,7 +1088,7 @@
    "outputs": [],
    "source": [
     "# save to disk\n",
-    "item_features.to_parquet(\"item_features.parquet\")"
+    "item_features.to_parquet(os.path.join(DATA_FOLDER, \"item_features.parquet\"))"
    ]
   },
   {
@@ -741,14 +1105,27 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 23,
    "id": "138678ae",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/io/dataset.py:251: UserWarning: Initializing an NVTabular Dataset in CPU mode.This is an experimental feature with extremely limited support!\n",
+      "  warnings.warn(\n",
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/io/dataset.py:251: UserWarning: Initializing an NVTabular Dataset in CPU mode.This is an experimental feature with extremely limited support!\n",
+      "  warnings.warn(\n",
+      "/home/alaiacano/.pyenv/versions/3.8.10/envs/merlin38/lib/python3.8/site-packages/merlin/schema/tags.py:148: UserWarning: Compound tags like Tags.ITEM_ID have been deprecated and will be removed in a future version. Please use the atomic versions of these tags, like [<Tags.ITEM: 'item'>, <Tags.ID: 'id'>].\n",
+      "  warnings.warn(\n"
+     ]
+    }
+   ],
    "source": [
     "item_embs = model.item_embeddings(Dataset(item_features, schema=schema), batch_size=1024)\n",
     "item_embs_df = item_embs.compute(scheduler=\"synchronous\")"
@@ -756,21 +1133,396 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 24,
    "id": "a69694b0",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>item_id</th>\n",
+       "      <th>item_category</th>\n",
+       "      <th>item_shop</th>\n",
+       "      <th>item_brand</th>\n",
+       "      <th>0</th>\n",
+       "      <th>1</th>\n",
+       "      <th>2</th>\n",
+       "      <th>3</th>\n",
+       "      <th>4</th>\n",
+       "      <th>5</th>\n",
+       "      <th>...</th>\n",
+       "      <th>54</th>\n",
+       "      <th>55</th>\n",
+       "      <th>56</th>\n",
+       "      <th>57</th>\n",
+       "      <th>58</th>\n",
+       "      <th>59</th>\n",
+       "      <th>60</th>\n",
+       "      <th>61</th>\n",
+       "      <th>62</th>\n",
+       "      <th>63</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>30</td>\n",
+       "      <td>30</td>\n",
+       "      <td>30</td>\n",
+       "      <td>30</td>\n",
+       "      <td>0.013722</td>\n",
+       "      <td>-0.038877</td>\n",
+       "      <td>0.027160</td>\n",
+       "      <td>-0.056064</td>\n",
+       "      <td>-0.088141</td>\n",
+       "      <td>0.037771</td>\n",
+       "      <td>...</td>\n",
+       "      <td>-0.002621</td>\n",
+       "      <td>-0.047390</td>\n",
+       "      <td>-0.036058</td>\n",
+       "      <td>0.040486</td>\n",
+       "      <td>0.094787</td>\n",
+       "      <td>0.034536</td>\n",
+       "      <td>-0.020187</td>\n",
+       "      <td>0.016947</td>\n",
+       "      <td>0.037674</td>\n",
+       "      <td>-0.054949</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>27</td>\n",
+       "      <td>27</td>\n",
+       "      <td>27</td>\n",
+       "      <td>27</td>\n",
+       "      <td>0.017832</td>\n",
+       "      <td>0.000882</td>\n",
+       "      <td>0.004411</td>\n",
+       "      <td>-0.000135</td>\n",
+       "      <td>-0.045962</td>\n",
+       "      <td>0.000952</td>\n",
+       "      <td>...</td>\n",
+       "      <td>-0.041442</td>\n",
+       "      <td>-0.057827</td>\n",
+       "      <td>-0.059980</td>\n",
+       "      <td>0.031100</td>\n",
+       "      <td>0.032169</td>\n",
+       "      <td>0.116988</td>\n",
+       "      <td>0.001392</td>\n",
+       "      <td>0.100734</td>\n",
+       "      <td>-0.007959</td>\n",
+       "      <td>-0.018133</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>15</td>\n",
+       "      <td>15</td>\n",
+       "      <td>15</td>\n",
+       "      <td>15</td>\n",
+       "      <td>0.043520</td>\n",
+       "      <td>-0.088271</td>\n",
+       "      <td>0.005647</td>\n",
+       "      <td>0.039733</td>\n",
+       "      <td>0.047905</td>\n",
+       "      <td>-0.018342</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.060803</td>\n",
+       "      <td>-0.057762</td>\n",
+       "      <td>0.009969</td>\n",
+       "      <td>-0.001141</td>\n",
+       "      <td>0.111599</td>\n",
+       "      <td>0.048858</td>\n",
+       "      <td>-0.035187</td>\n",
+       "      <td>0.030356</td>\n",
+       "      <td>-0.069294</td>\n",
+       "      <td>-0.060928</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>6</td>\n",
+       "      <td>6</td>\n",
+       "      <td>6</td>\n",
+       "      <td>6</td>\n",
+       "      <td>0.016514</td>\n",
+       "      <td>0.062687</td>\n",
+       "      <td>-0.019989</td>\n",
+       "      <td>-0.072054</td>\n",
+       "      <td>-0.090658</td>\n",
+       "      <td>0.031691</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.065355</td>\n",
+       "      <td>-0.058297</td>\n",
+       "      <td>-0.126050</td>\n",
+       "      <td>-0.066580</td>\n",
+       "      <td>-0.001697</td>\n",
+       "      <td>-0.022819</td>\n",
+       "      <td>0.023825</td>\n",
+       "      <td>0.042565</td>\n",
+       "      <td>-0.015717</td>\n",
+       "      <td>-0.043056</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "      <td>0.034221</td>\n",
+       "      <td>-0.018455</td>\n",
+       "      <td>-0.008388</td>\n",
+       "      <td>-0.067058</td>\n",
+       "      <td>-0.078019</td>\n",
+       "      <td>0.144726</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.006008</td>\n",
+       "      <td>0.012593</td>\n",
+       "      <td>-0.017191</td>\n",
+       "      <td>-0.003372</td>\n",
+       "      <td>-0.016305</td>\n",
+       "      <td>0.097570</td>\n",
+       "      <td>-0.027198</td>\n",
+       "      <td>-0.005796</td>\n",
+       "      <td>0.104270</td>\n",
+       "      <td>-0.095587</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>651</th>\n",
+       "      <td>592</td>\n",
+       "      <td>592</td>\n",
+       "      <td>592</td>\n",
+       "      <td>592</td>\n",
+       "      <td>0.034567</td>\n",
+       "      <td>-0.019798</td>\n",
+       "      <td>0.036869</td>\n",
+       "      <td>0.006455</td>\n",
+       "      <td>0.041020</td>\n",
+       "      <td>0.032228</td>\n",
+       "      <td>...</td>\n",
+       "      <td>-0.066052</td>\n",
+       "      <td>-0.005500</td>\n",
+       "      <td>-0.038382</td>\n",
+       "      <td>-0.046610</td>\n",
+       "      <td>0.040762</td>\n",
+       "      <td>0.064137</td>\n",
+       "      <td>0.032616</td>\n",
+       "      <td>0.023622</td>\n",
+       "      <td>-0.038059</td>\n",
+       "      <td>0.005311</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>652</th>\n",
+       "      <td>738</td>\n",
+       "      <td>738</td>\n",
+       "      <td>738</td>\n",
+       "      <td>738</td>\n",
+       "      <td>0.040859</td>\n",
+       "      <td>-0.010400</td>\n",
+       "      <td>0.026859</td>\n",
+       "      <td>-0.013399</td>\n",
+       "      <td>-0.074890</td>\n",
+       "      <td>0.031183</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.061172</td>\n",
+       "      <td>-0.042710</td>\n",
+       "      <td>-0.046173</td>\n",
+       "      <td>-0.093668</td>\n",
+       "      <td>0.030414</td>\n",
+       "      <td>0.080392</td>\n",
+       "      <td>-0.050578</td>\n",
+       "      <td>0.011348</td>\n",
+       "      <td>-0.069107</td>\n",
+       "      <td>-0.096119</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>653</th>\n",
+       "      <td>528</td>\n",
+       "      <td>528</td>\n",
+       "      <td>528</td>\n",
+       "      <td>528</td>\n",
+       "      <td>-0.003552</td>\n",
+       "      <td>-0.038933</td>\n",
+       "      <td>0.008198</td>\n",
+       "      <td>-0.109951</td>\n",
+       "      <td>0.010384</td>\n",
+       "      <td>0.003504</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.035436</td>\n",
+       "      <td>-0.026332</td>\n",
+       "      <td>0.011653</td>\n",
+       "      <td>-0.040085</td>\n",
+       "      <td>0.044650</td>\n",
+       "      <td>0.023294</td>\n",
+       "      <td>-0.016258</td>\n",
+       "      <td>-0.009846</td>\n",
+       "      <td>0.039786</td>\n",
+       "      <td>0.012646</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>654</th>\n",
+       "      <td>550</td>\n",
+       "      <td>550</td>\n",
+       "      <td>550</td>\n",
+       "      <td>550</td>\n",
+       "      <td>0.081330</td>\n",
+       "      <td>0.029574</td>\n",
+       "      <td>-0.079281</td>\n",
+       "      <td>-0.054133</td>\n",
+       "      <td>-0.048405</td>\n",
+       "      <td>-0.011560</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.052818</td>\n",
+       "      <td>0.024629</td>\n",
+       "      <td>-0.014590</td>\n",
+       "      <td>-0.066076</td>\n",
+       "      <td>-0.050809</td>\n",
+       "      <td>0.085821</td>\n",
+       "      <td>-0.064984</td>\n",
+       "      <td>-0.030180</td>\n",
+       "      <td>-0.011900</td>\n",
+       "      <td>-0.093892</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>655</th>\n",
+       "      <td>600</td>\n",
+       "      <td>600</td>\n",
+       "      <td>600</td>\n",
+       "      <td>600</td>\n",
+       "      <td>0.002396</td>\n",
+       "      <td>-0.044717</td>\n",
+       "      <td>0.022094</td>\n",
+       "      <td>0.005330</td>\n",
+       "      <td>0.030306</td>\n",
+       "      <td>-0.010537</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.044282</td>\n",
+       "      <td>-0.069714</td>\n",
+       "      <td>0.005738</td>\n",
+       "      <td>-0.022341</td>\n",
+       "      <td>0.022882</td>\n",
+       "      <td>0.062106</td>\n",
+       "      <td>-0.046273</td>\n",
+       "      <td>0.110572</td>\n",
+       "      <td>0.017938</td>\n",
+       "      <td>-0.013358</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>656 rows × 68 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     item_id  item_category  item_shop  item_brand         0         1  \\\n",
+       "0         30             30         30          30  0.013722 -0.038877   \n",
+       "1         27             27         27          27  0.017832  0.000882   \n",
+       "2         15             15         15          15  0.043520 -0.088271   \n",
+       "3          6              6          6           6  0.016514  0.062687   \n",
+       "4          5              5          5           5  0.034221 -0.018455   \n",
+       "..       ...            ...        ...         ...       ...       ...   \n",
+       "651      592            592        592         592  0.034567 -0.019798   \n",
+       "652      738            738        738         738  0.040859 -0.010400   \n",
+       "653      528            528        528         528 -0.003552 -0.038933   \n",
+       "654      550            550        550         550  0.081330  0.029574   \n",
+       "655      600            600        600         600  0.002396 -0.044717   \n",
+       "\n",
+       "            2         3         4         5  ...        54        55  \\\n",
+       "0    0.027160 -0.056064 -0.088141  0.037771  ... -0.002621 -0.047390   \n",
+       "1    0.004411 -0.000135 -0.045962  0.000952  ... -0.041442 -0.057827   \n",
+       "2    0.005647  0.039733  0.047905 -0.018342  ...  0.060803 -0.057762   \n",
+       "3   -0.019989 -0.072054 -0.090658  0.031691  ...  0.065355 -0.058297   \n",
+       "4   -0.008388 -0.067058 -0.078019  0.144726  ...  0.006008  0.012593   \n",
+       "..        ...       ...       ...       ...  ...       ...       ...   \n",
+       "651  0.036869  0.006455  0.041020  0.032228  ... -0.066052 -0.005500   \n",
+       "652  0.026859 -0.013399 -0.074890  0.031183  ...  0.061172 -0.042710   \n",
+       "653  0.008198 -0.109951  0.010384  0.003504  ...  0.035436 -0.026332   \n",
+       "654 -0.079281 -0.054133 -0.048405 -0.011560  ...  0.052818  0.024629   \n",
+       "655  0.022094  0.005330  0.030306 -0.010537  ...  0.044282 -0.069714   \n",
+       "\n",
+       "           56        57        58        59        60        61        62  \\\n",
+       "0   -0.036058  0.040486  0.094787  0.034536 -0.020187  0.016947  0.037674   \n",
+       "1   -0.059980  0.031100  0.032169  0.116988  0.001392  0.100734 -0.007959   \n",
+       "2    0.009969 -0.001141  0.111599  0.048858 -0.035187  0.030356 -0.069294   \n",
+       "3   -0.126050 -0.066580 -0.001697 -0.022819  0.023825  0.042565 -0.015717   \n",
+       "4   -0.017191 -0.003372 -0.016305  0.097570 -0.027198 -0.005796  0.104270   \n",
+       "..        ...       ...       ...       ...       ...       ...       ...   \n",
+       "651 -0.038382 -0.046610  0.040762  0.064137  0.032616  0.023622 -0.038059   \n",
+       "652 -0.046173 -0.093668  0.030414  0.080392 -0.050578  0.011348 -0.069107   \n",
+       "653  0.011653 -0.040085  0.044650  0.023294 -0.016258 -0.009846  0.039786   \n",
+       "654 -0.014590 -0.066076 -0.050809  0.085821 -0.064984 -0.030180 -0.011900   \n",
+       "655  0.005738 -0.022341  0.022882  0.062106 -0.046273  0.110572  0.017938   \n",
+       "\n",
+       "           63  \n",
+       "0   -0.054949  \n",
+       "1   -0.018133  \n",
+       "2   -0.060928  \n",
+       "3   -0.043056  \n",
+       "4   -0.095587  \n",
+       "..        ...  \n",
+       "651  0.005311  \n",
+       "652 -0.096119  \n",
+       "653  0.012646  \n",
+       "654 -0.093892  \n",
+       "655 -0.013358  \n",
+       "\n",
+       "[656 rows x 68 columns]"
+      ]
+     },
+     "execution_count": 24,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
     "item_embs_df"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 25,
    "id": "2dd16723",
    "metadata": {
     "pycharm": {
@@ -785,21 +1537,221 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 26,
    "id": "28687001",
    "metadata": {
     "pycharm": {
      "name": "#%%\n"
     }
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>0</th>\n",
+       "      <th>1</th>\n",
+       "      <th>2</th>\n",
+       "      <th>3</th>\n",
+       "      <th>4</th>\n",
+       "      <th>5</th>\n",
+       "      <th>6</th>\n",
+       "      <th>7</th>\n",
+       "      <th>8</th>\n",
+       "      <th>9</th>\n",
+       "      <th>...</th>\n",
+       "      <th>54</th>\n",
+       "      <th>55</th>\n",
+       "      <th>56</th>\n",
+       "      <th>57</th>\n",
+       "      <th>58</th>\n",
+       "      <th>59</th>\n",
+       "      <th>60</th>\n",
+       "      <th>61</th>\n",
+       "      <th>62</th>\n",
+       "      <th>63</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0.013722</td>\n",
+       "      <td>-0.038877</td>\n",
+       "      <td>0.027160</td>\n",
+       "      <td>-0.056064</td>\n",
+       "      <td>-0.088141</td>\n",
+       "      <td>0.037771</td>\n",
+       "      <td>-0.015925</td>\n",
+       "      <td>0.007615</td>\n",
+       "      <td>-0.041389</td>\n",
+       "      <td>-0.028759</td>\n",
+       "      <td>...</td>\n",
+       "      <td>-0.002621</td>\n",
+       "      <td>-0.047390</td>\n",
+       "      <td>-0.036058</td>\n",
+       "      <td>0.040486</td>\n",
+       "      <td>0.094787</td>\n",
+       "      <td>0.034536</td>\n",
+       "      <td>-0.020187</td>\n",
+       "      <td>0.016947</td>\n",
+       "      <td>0.037674</td>\n",
+       "      <td>-0.054949</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0.017832</td>\n",
+       "      <td>0.000882</td>\n",
+       "      <td>0.004411</td>\n",
+       "      <td>-0.000135</td>\n",
+       "      <td>-0.045962</td>\n",
+       "      <td>0.000952</td>\n",
+       "      <td>-0.051164</td>\n",
+       "      <td>-0.024453</td>\n",
+       "      <td>-0.031280</td>\n",
+       "      <td>-0.057322</td>\n",
+       "      <td>...</td>\n",
+       "      <td>-0.041442</td>\n",
+       "      <td>-0.057827</td>\n",
+       "      <td>-0.059980</td>\n",
+       "      <td>0.031100</td>\n",
+       "      <td>0.032169</td>\n",
+       "      <td>0.116988</td>\n",
+       "      <td>0.001392</td>\n",
+       "      <td>0.100734</td>\n",
+       "      <td>-0.007959</td>\n",
+       "      <td>-0.018133</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>0.043520</td>\n",
+       "      <td>-0.088271</td>\n",
+       "      <td>0.005647</td>\n",
+       "      <td>0.039733</td>\n",
+       "      <td>0.047905</td>\n",
+       "      <td>-0.018342</td>\n",
+       "      <td>-0.126344</td>\n",
+       "      <td>-0.119511</td>\n",
+       "      <td>-0.060764</td>\n",
+       "      <td>0.027011</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.060803</td>\n",
+       "      <td>-0.057762</td>\n",
+       "      <td>0.009969</td>\n",
+       "      <td>-0.001141</td>\n",
+       "      <td>0.111599</td>\n",
+       "      <td>0.048858</td>\n",
+       "      <td>-0.035187</td>\n",
+       "      <td>0.030356</td>\n",
+       "      <td>-0.069294</td>\n",
+       "      <td>-0.060928</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0.016514</td>\n",
+       "      <td>0.062687</td>\n",
+       "      <td>-0.019989</td>\n",
+       "      <td>-0.072054</td>\n",
+       "      <td>-0.090658</td>\n",
+       "      <td>0.031691</td>\n",
+       "      <td>-0.047631</td>\n",
+       "      <td>-0.063941</td>\n",
+       "      <td>-0.046331</td>\n",
+       "      <td>0.050307</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.065355</td>\n",
+       "      <td>-0.058297</td>\n",
+       "      <td>-0.126050</td>\n",
+       "      <td>-0.066580</td>\n",
+       "      <td>-0.001697</td>\n",
+       "      <td>-0.022819</td>\n",
+       "      <td>0.023825</td>\n",
+       "      <td>0.042565</td>\n",
+       "      <td>-0.015717</td>\n",
+       "      <td>-0.043056</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>0.034221</td>\n",
+       "      <td>-0.018455</td>\n",
+       "      <td>-0.008388</td>\n",
+       "      <td>-0.067058</td>\n",
+       "      <td>-0.078019</td>\n",
+       "      <td>0.144726</td>\n",
+       "      <td>-0.026256</td>\n",
+       "      <td>-0.017077</td>\n",
+       "      <td>0.069507</td>\n",
+       "      <td>0.046839</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0.006008</td>\n",
+       "      <td>0.012593</td>\n",
+       "      <td>-0.017191</td>\n",
+       "      <td>-0.003372</td>\n",
+       "      <td>-0.016305</td>\n",
+       "      <td>0.097570</td>\n",
+       "      <td>-0.027198</td>\n",
+       "      <td>-0.005796</td>\n",
+       "      <td>0.104270</td>\n",
+       "      <td>-0.095587</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 64 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "          0         1         2         3         4         5         6  \\\n",
+       "0  0.013722 -0.038877  0.027160 -0.056064 -0.088141  0.037771 -0.015925   \n",
+       "1  0.017832  0.000882  0.004411 -0.000135 -0.045962  0.000952 -0.051164   \n",
+       "2  0.043520 -0.088271  0.005647  0.039733  0.047905 -0.018342 -0.126344   \n",
+       "3  0.016514  0.062687 -0.019989 -0.072054 -0.090658  0.031691 -0.047631   \n",
+       "4  0.034221 -0.018455 -0.008388 -0.067058 -0.078019  0.144726 -0.026256   \n",
+       "\n",
+       "          7         8         9  ...        54        55        56        57  \\\n",
+       "0  0.007615 -0.041389 -0.028759  ... -0.002621 -0.047390 -0.036058  0.040486   \n",
+       "1 -0.024453 -0.031280 -0.057322  ... -0.041442 -0.057827 -0.059980  0.031100   \n",
+       "2 -0.119511 -0.060764  0.027011  ...  0.060803 -0.057762  0.009969 -0.001141   \n",
+       "3 -0.063941 -0.046331  0.050307  ...  0.065355 -0.058297 -0.126050 -0.066580   \n",
+       "4 -0.017077  0.069507  0.046839  ...  0.006008  0.012593 -0.017191 -0.003372   \n",
+       "\n",
+       "         58        59        60        61        62        63  \n",
+       "0  0.094787  0.034536 -0.020187  0.016947  0.037674 -0.054949  \n",
+       "1  0.032169  0.116988  0.001392  0.100734 -0.007959 -0.018133  \n",
+       "2  0.111599  0.048858 -0.035187  0.030356 -0.069294 -0.060928  \n",
+       "3 -0.001697 -0.022819  0.023825  0.042565 -0.015717 -0.043056  \n",
+       "4 -0.016305  0.097570 -0.027198 -0.005796  0.104270 -0.095587  \n",
+       "\n",
+       "[5 rows x 64 columns]"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
     "item_embeddings.head()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 27,
    "id": "5d152e82",
    "metadata": {
     "pycharm": {
@@ -809,7 +1761,7 @@
    "outputs": [],
    "source": [
     "# save to disk\n",
-    "item_embeddings.to_parquet(\"item_embeddings.parquet\")"
+    "item_embeddings.to_parquet(os.path.join(DATA_FOLDER, \"item_embeddings.parquet\"))"
    ]
   },
   {
@@ -841,12 +1793,17 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.9.13"
+   "version": "3.8.10"
   },
   "merlin": {
    "containers": [
     "nvcr.io/nvidia/merlin/merlin-tensorflow:latest"
    ]
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "a398807c5c2ed8e5ff9d9890488d007fa99cbabcec733962e21659a28c5da99b"
+   }
   }
  },
  "nbformat": 4,
