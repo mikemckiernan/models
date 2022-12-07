@@ -3,6 +3,51 @@ API Documentation
 *****************
 
 
+Cond
+MapVales
+ModelContext
+TopKEncoder
+Encoder
+EmbeddingEncoder
+EmbeddingTable
+AverageEmbeddingsByWeightFeature
+Embeddings
+QueryItemIdsEmbeddingsBlock
+ListToDense
+ListToRagged
+ListToSparse
+ToSparse
+ToDense
+ToTarget
+CategoryEncoding
+HashedCross
+HashedCrossAll
+ToOneHot
+ModelOutput
+BinaryOutput
+RegressionOutput
+CategoricalOutput
+ContrastiveOutput
+MultiOptimizer
+LazyAdam
+split_embeddings_on_size
+OptimizerBlocks
+ItemRetrievalScorer
+TopKMetricsAggregator
+RetrievalModelV2
+L2Norm
+TensorIntializer
+BroadcastToSequence
+KerasSequenceValidator
+SequencePredictNext
+SequencePredictLast
+SequencePredictRandom
+SequenceTargetAsInput
+SequenceMaskLast
+SequenceMaskRandom
+ReplaceMaskedEmbeddings
+
+
 TensorFlow Models
 ------------------
 
@@ -16,7 +61,9 @@ Ranking Model Constructors
    :toctree: generated
 
    DCNModel
+   DeepFMModel
    DLRMModel
+   WideAndDeepModel
 
 Retrieval Model Constructors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,8 +71,11 @@ Retrieval Model Constructors
 .. autosummary::
    :toctree: generated
 
+   MatrixFactorizationModelV2
    MatrixFactorizationModel
+   TwoTowerModelV2
    TwoTowerModel
+   YoutubeDNNRetrievalModelV2
    YoutubeDNNRetrievalModel
 
 Input Block Constructors
@@ -33,10 +83,16 @@ Input Block Constructors
 .. autosummary::
    :toctree: generated
 
+   InputBlockV2
    InputBlock
+   Continuous
    ContinuousFeatures
    ContinuousEmbedding
+   ContinuousProjection
+   AverageEmbeddingsByWeightFeature
+   Embeddings
    EmbeddingFeatures
+   EmbeddingTable
    SequenceEmbeddingFeatures
 
 Model Building Block Constructors
@@ -51,6 +107,8 @@ Model Building Block Constructors
    TwoTowerBlock
    MatrixFactorizationBlock
    DotProductInteraction
+   FMBlock
+   FMPairwiseInteraction
 
 Modeling Prediction Task Constructors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,7 +122,7 @@ Modeling Prediction Task Constructors
    MultiClassClassificationTask
    RegressionTask
    ItemRetrievalTask
-   NextItemPredictionTask
+
 
 Model Pipeline Constructors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,16 +140,6 @@ Model Pipeline Constructors
    Filter
 
 
-Masking Block Constructors
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. autosummary::
-   :toctree: generated
-
-   CausalLanguageModeling
-   MaskedLanguageModeling
-
-
 Transformation Block Constructors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -99,8 +147,6 @@ Transformation Block Constructors
    :toctree: generated
 
    ExpandDims
-   AsDenseFeatures
-   AsSparseFeatures
    StochasticSwapNoise
    AsTabular
 
@@ -119,7 +165,7 @@ Data Loader Customization Constructor
 .. autosummary::
    :toctree: generated
 
-   merlin.models.tf.dataset.BatchedDataset
+   merlin.models.tf.Loader
 
 
 Metrics
@@ -131,7 +177,7 @@ Metrics
    NDCGAt
    AvgPrecisionAt
    RecallAt
-   ranking_metrics
+   TopKMetricsAggregator
 
 Sampling
 ~~~~~~~~
@@ -141,8 +187,6 @@ Sampling
 
    ItemSampler
    InBatchSampler
-   CachedCrossBatchSampler
-   CachedUniformSampler
    PopularityBasedSampler
 
 
