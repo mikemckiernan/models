@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
       <link rel="stylesheet" href="_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="canonical" href="https://nvidia-merlin.github.io/models/main/api.html" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -26,7 +28,14 @@
     <link rel="prev" title="Taking the Next Step with Merlin Models: Define Your Own Architecture" href="examples/06-Define-your-own-architecture-with-Merlin-Models.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+  <div class="banner">
+    <p class="banner">
+      Beginning in January 2023, versions for all NVIDIA Merlin projects
+      will change from semantic versioning like <code>4.0</code>
+      to calendar versioning like <code>23.01</code>.</p>
+  </div>
+
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
@@ -551,7 +560,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/merlin.models.utils.registry.Registry.html#merlin.models.utils.registry.Registry" title="merlin.models.utils.registry.Registry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merlin.models.utils.registry.Registry</span></code></a>(…[, …])</p></td>
 <td><p>Dict-like class for managing function registrations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/merlin.models.utils.registry.RegistryMixin.html#merlin.models.utils.registry.RegistryMixin" title="merlin.models.utils.registry.RegistryMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merlin.models.utils.registry.RegistryMixin</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/merlin.models.utils.registry.RegistryMixin.html#merlin.models.utils.registry.RegistryMixin" title="merlin.models.utils.registry.RegistryMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merlin.models.utils.registry.RegistryMixin</span></code></a>(…)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/merlin.models.utils.registry.display_list_by_prefix.html#merlin.models.utils.registry.display_list_by_prefix" title="merlin.models.utils.registry.display_list_by_prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merlin.models.utils.registry.display_list_by_prefix</span></code></a>(…)</p></td>
@@ -608,7 +617,18 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVJ1Y1YJHK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NVJ1Y1YJHK', {
+          'anonymize_ip': false,
+      });
+    </script> 
 
 </body>
 </html>
