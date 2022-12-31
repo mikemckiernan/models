@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/togglebutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/custom.css" type="text/css" />
+    <link rel="canonical" href="https://nvidia-merlin.github.io/models/main/_modules/merlin/models/tf/inputs/embedding.html" />
   <!--[if lt IE 9]>
     <script src="../../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -24,7 +26,14 @@
     <link rel="search" title="Search" href="../../../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+  <div class="banner">
+    <p class="banner">
+      Beginning in January 2023, versions for all NVIDIA Merlin projects
+      will change from semantic versioning like <code>4.0</code>
+      to calendar versioning like <code>23.01</code>.</p>
+  </div>
+
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
@@ -467,7 +476,9 @@
             <span class="n">inputs</span> <span class="o">=</span> <span class="n">list_col_to_ragged</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 
         <span class="c1"># Eliminating the last dim==1 of dense tensors before embedding lookup</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">RaggedTensor</span><span class="p">)</span> <span class="ow">and</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="p">):</span>
             <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">RaggedTensor</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">SparseTensor</span><span class="p">)):</span>
@@ -1307,7 +1318,18 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVJ1Y1YJHK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NVJ1Y1YJHK', {
+          'anonymize_ip': false,
+      });
+    </script> 
 
 </body>
 </html>
