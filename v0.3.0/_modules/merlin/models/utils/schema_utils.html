@@ -194,7 +194,7 @@
 
 
 <div class="viewcode-block" id="filter_dict_by_schema"><a class="viewcode-back" href="../../../../generated/merlin.models.utils.schema_utils.filter_dict_by_schema.html#merlin.models.utils.schema_utils.filter_dict_by_schema">[docs]</a><span class="k">def</span> <span class="nf">filter_dict_by_schema</span><span class="p">(</span><span class="n">input_dict</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Filters out entries from input_dict, returns a dictionary</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filters out entries from input_dict, returns a dictionary</span>
 <span class="sd">    where every entry corresponds to a column in the schema&quot;&quot;&quot;</span>
     <span class="n">column_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">column_names</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">input_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">}</span></div>

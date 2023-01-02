@@ -129,7 +129,7 @@
 <span class="nd">@Block</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">register_with_multiple_names</span><span class="p">(</span><span class="s2">&quot;masking_block&quot;</span><span class="p">)</span>
 <span class="nd">@tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_keras_serializable</span><span class="p">(</span><span class="n">package</span><span class="o">=</span><span class="s2">&quot;merlin.models&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">MaskingBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class to prepare masked items inputs/labels for item prediction task.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class to prepare masked items inputs/labels for item prediction task.</span>
 <span class="sd">    The masking schema sets the items to be predicted (labels) and masks (hides)</span>
 <span class="sd">    their positions in the sequence so that they are not used by the model</span>
 <span class="sd">    for prediction.</span>
@@ -229,7 +229,7 @@
 <span class="nd">@Block</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">register_with_multiple_names</span><span class="p">(</span><span class="s2">&quot;causal_language_modeling&quot;</span><span class="p">)</span>
 <span class="nd">@tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_keras_serializable</span><span class="p">(</span><span class="n">package</span><span class="o">=</span><span class="s2">&quot;merlin.models&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">CausalLanguageModeling</span><span class="p">(</span><span class="n">MaskingBlock</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    In Causal Language Modeling (clm) you predict the next item based on past positions of the</span>
 <span class="sd">    sequence. Future positions are masked.</span>
 <span class="sd">    Parameters</span>
@@ -311,7 +311,7 @@
 <span class="nd">@Block</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">register_with_multiple_names</span><span class="p">(</span><span class="s2">&quot;masked_language_modeling&quot;</span><span class="p">)</span>
 <span class="nd">@tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_keras_serializable</span><span class="p">(</span><span class="n">package</span><span class="o">=</span><span class="s2">&quot;merlin.models&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">MaskedLanguageModeling</span><span class="p">(</span><span class="n">MaskingBlock</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    In Masked Language Modeling (mlm) you randomly select some positions of the sequence to be</span>
 <span class="sd">    predicted, which are masked.</span>
 <span class="sd">    During training, the Transformer layer is allowed to use positions on the right (future info).</span>
@@ -356,7 +356,7 @@
         <span class="k">return</span> <span class="n">config</span></div>
 
 <div class="viewcode-block" id="MaskedLanguageModeling.compute_mask_schema"><a class="viewcode-back" href="../../../../../../generated/merlin.models.tf.MaskedLanguageModeling.html#merlin.models.tf.MaskedLanguageModeling.compute_mask_schema">[docs]</a>    <span class="k">def</span> <span class="nf">compute_mask_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_ids</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">training</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the mask schema for masked language modeling task</span>
 <span class="sd">        the function is based on HuggingFace&#39;s transformers/data/data_collator.py</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -439,7 +439,7 @@
 <span class="nd">@Block</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">register_with_multiple_names</span><span class="p">(</span><span class="s2">&quot;masking_head&quot;</span><span class="p">)</span>
 <span class="nd">@tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_keras_serializable</span><span class="p">(</span><span class="n">package</span><span class="o">=</span><span class="s2">&quot;merlin_models&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">MaskingHead</span><span class="p">(</span><span class="n">Block</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The masking class to transform targets based on the</span>
 <span class="sd">    boolean masking schema stored in the model&#39;s context</span>
 <span class="sd">    Parameters</span>

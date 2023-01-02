@@ -150,7 +150,7 @@
 <span class="p">)</span>
 <span class="nd">@tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_keras_serializable</span><span class="p">(</span><span class="n">package</span><span class="o">=</span><span class="s2">&quot;merlin.models&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">EmbeddingFeatures</span><span class="p">(</span><span class="n">TabularBlock</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Input block for embedding-lookups for categorical features.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input block for embedding-lookups for categorical features.</span>
 
 <span class="sd">    For multi-hot features, the embeddings will be aggregated into a single tensor using the mean.</span>
 
@@ -380,7 +380,7 @@
 <span class="p">)</span>
 <span class="nd">@tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_keras_serializable</span><span class="p">(</span><span class="n">package</span><span class="o">=</span><span class="s2">&quot;merlin.models&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">SequenceEmbeddingFeatures</span><span class="p">(</span><span class="n">EmbeddingFeatures</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Input block for embedding-lookups for categorical features. This module produces 3-D tensors,</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input block for embedding-lookups for categorical features. This module produces 3-D tensors,</span>
 <span class="sd">    this is useful for sequential models like transformers.</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

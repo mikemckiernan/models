@@ -107,7 +107,7 @@
 
 
 <div class="viewcode-block" id="CachedCrossBatchSampler"><a class="viewcode-back" href="../../../../../../generated/merlin.models.tf.CachedCrossBatchSampler.html#merlin.models.tf.CachedCrossBatchSampler">[docs]</a><span class="k">class</span> <span class="nc">CachedCrossBatchSampler</span><span class="p">(</span><span class="n">ItemSampler</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Provides efficient cached cross-batch [1]_ / inter-batch [2]_ negative sampling</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Provides efficient cached cross-batch [1]_ / inter-batch [2]_ negative sampling</span>
 <span class="sd">    for two-tower item retrieval model. The caches consists of a fixed capacity FIFO queue</span>
 <span class="sd">    which keeps the item embeddings from the last N batches. All items in the queue are</span>
 <span class="sd">    sampled as negatives for upcoming batches.</span>
@@ -202,7 +202,7 @@
             <span class="p">)</span>
 
 <div class="viewcode-block" id="CachedCrossBatchSampler.call"><a class="viewcode-back" href="../../../../../../generated/merlin.models.tf.CachedCrossBatchSampler.html#merlin.models.tf.CachedCrossBatchSampler.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">TabularData</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EmbeddingWithMetadata</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Adds the current batch to the FIFO queue cache and samples all items</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds the current batch to the FIFO queue cache and samples all items</span>
 <span class="sd">        embeddings from the last N cached batches.</span>
 
 <span class="sd">        Parameters</span>
@@ -267,7 +267,7 @@
 
 
 <div class="viewcode-block" id="CachedUniformSampler"><a class="viewcode-back" href="../../../../../../generated/merlin.models.tf.CachedUniformSampler.html#merlin.models.tf.CachedUniformSampler">[docs]</a><span class="k">class</span> <span class="nc">CachedUniformSampler</span><span class="p">(</span><span class="n">CachedCrossBatchSampler</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Provides a cached uniform negative sampling for two-tower item retrieval model.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Provides a cached uniform negative sampling for two-tower item retrieval model.</span>
 <span class="sd">    It is similar to the `CachedCrossBatchSampler`, the main difference</span>
 <span class="sd">    is that the `CachedUniformSampler` is a popularity-based sampler and `CachedUniformSampler`</span>
 <span class="sd">    only keeps unique item embeddings in the queue for uniform sampling.</span>
@@ -329,7 +329,7 @@
         <span class="n">inputs</span><span class="p">:</span> <span class="n">TabularData</span><span class="p">,</span>
         <span class="n">training</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Updates the FIFO queue with batch item embeddings (for items whose ids were</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates the FIFO queue with batch item embeddings (for items whose ids were</span>
 <span class="sd">        already added to the queue) and adds to the queue the items seen for the first time</span>
 
 <span class="sd">        Parameters</span>
@@ -389,7 +389,7 @@
     <span class="k">def</span> <span class="nf">_get_unique_items</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">items_embeddings</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">items_metadata</span><span class="p">:</span> <span class="n">TabularData</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EmbeddingWithMetadata</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Extracts the embeddings and corresponding metadata features for</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extracts the embeddings and corresponding metadata features for</span>
 <span class="sd">        the unique items found in the batch, based on the item ids</span>
 
 <span class="sd">        Parameters</span>
@@ -441,7 +441,7 @@
 
 
 <div class="viewcode-block" id="PopularityBasedSampler"><a class="viewcode-back" href="../../../../../../generated/merlin.models.tf.PopularityBasedSampler.html#merlin.models.tf.PopularityBasedSampler">[docs]</a><span class="k">class</span> <span class="nc">PopularityBasedSampler</span><span class="p">(</span><span class="n">ItemSampler</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides a popularity-based negative sampling for the softmax layer</span>
 <span class="sd">    to ensure training efficiency when the catalog of items is very large.</span>
 <span class="sd">    The capacity of the queue is fixed and is equal to the catalog size.</span>

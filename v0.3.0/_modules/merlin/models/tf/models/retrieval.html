@@ -117,7 +117,7 @@
     <span class="n">samplers</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ItemSampler</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Model</span><span class="p">,</span> <span class="n">RetrievalModel</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Builds a matrix factorization model.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds a matrix factorization model.</span>
 
 <span class="sd">    Example Usage::</span>
 <span class="sd">        mf = MatrixFactorizationModel(schema, dim=128)</span>
@@ -202,7 +202,7 @@
     <span class="n">samplers</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ItemSampler</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Model</span><span class="p">,</span> <span class="n">RetrievalModel</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Builds the Two-tower architecture, as proposed in [1].</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds the Two-tower architecture, as proposed in [1].</span>
 
 <span class="sd">    Example Usage::</span>
 <span class="sd">        two_tower = TwoTowerModel(schema, MLPBlock([256, 64]))</span>
@@ -300,7 +300,7 @@
     <span class="n">logits_temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="n">seq_aggregator</span><span class="p">:</span> <span class="n">Block</span> <span class="o">=</span> <span class="n">SequenceAggregator</span><span class="p">(</span><span class="n">SequenceAggregation</span><span class="o">.</span><span class="n">MEAN</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Model</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Build the Youtube-DNN retrieval model. More details of the model can be found in [1].</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the Youtube-DNN retrieval model. More details of the model can be found in [1].</span>
 
 <span class="sd">    Example Usage::</span>
 <span class="sd">        model = YoutubeDNNRetrievalModel(schema, num_sampled=100)</span>
